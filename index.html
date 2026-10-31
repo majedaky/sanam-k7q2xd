@@ -189,8 +189,143 @@ textarea{width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(-
   .round{width:54px;height:54px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Cartoon world theme: sky-and-meadow scenes, bubbly white-rimmed buttons, springy motion ===== */
+:root{
+  --sky1:#7FD2FA; --sky2:#D9F4FF; --grass:#7CCB52; --sunny:#FFD43B; --candy:#FF7BAC; --tang:#FF9F43; --grape:#9B6BFF; --mint:#3EC46D;
+  --ink:#3B2F5C; --muted:#7A6E8F; --ok:#3EC46D; --shadow:rgba(40,30,90,.20); --rim:#FFFFFF;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+body{background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 72%);background-image:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 72%)}
+body[data-scene="plain"]{background:#FFF8EC}
+#scene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#scene svg{width:100%;height:100%;display:block}
+body[data-scene="plain"] #scene{display:none}
+#app{position:relative;z-index:1}
+.screen{position:relative}
+.screen.enter{animation:screenIn .42s var(--spring) both}
+@keyframes screenIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+
+/* scene motion */
+.cloud{animation:drift linear infinite}
+@keyframes drift{from{transform:translateX(-320px)}to{transform:translateX(1500px)}}
+.sunrays{transform-box:fill-box;transform-origin:center;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bub{animation:bubUp linear infinite}
+@keyframes bubUp{from{transform:translateY(0);opacity:0}10%{opacity:.8}to{transform:translateY(-900px);opacity:0}}
+.sway{transform-box:fill-box;transform-origin:50% 100%;animation:sway 5s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+
+/* bubbly round buttons */
+.round{background:linear-gradient(180deg,#FFB560,var(--tang));color:#fff;border:5px solid var(--rim);box-shadow:0 6px 0 #D9741C,0 10px 18px var(--shadow);position:relative}
+.round::before{content:"";position:absolute;inset:5px 10px auto;height:35%;border-radius:20px;background:rgba(255,255,255,.45)}
+.round:active{transform:translateY(5px);box-shadow:0 1px 0 #D9741C}
+#find-repeat{background:linear-gradient(180deg,#7DD3FF,#33A9F0);box-shadow:0 6px 0 #1E85C7,0 10px 18px var(--shadow)}
+.sheet .close{background:linear-gradient(180deg,#FF9AB9,var(--candy));box-shadow:0 5px 0 #D9548A}
+.stars{background:#fff;border:4px solid #FFE58A;box-shadow:0 5px 0 #F2C230;font-size:28px;padding:6px 18px;color:var(--ink)}
+.stars.pulse{animation:boing .6s}
+.parent-btn{background:rgba(255,255,255,.85)}
+
+/* home */
+.hello{align-items:flex-end}
+.hello .mascot{width:clamp(110px,17vw,160px);cursor:pointer;pointer-events:auto}
+.bubble{border:5px solid var(--rim);background:#fff;font-size:clamp(26px,3.8vw,38px);box-shadow:0 6px 0 rgba(0,0,0,.08);animation:pop .5s var(--spring) .15s both;color:var(--ink)}
+.bubble::before{border-left-color:#fff;right:-17px}
+.card{border:6px solid var(--rim);border-radius:42px;background:linear-gradient(180deg,var(--tint),var(--mid));box-shadow:0 10px 0 var(--edge),0 18px 30px var(--shadow);overflow:hidden;
+  animation:popIn .55s var(--spring) both;animation-delay:calc(var(--i,0)*80ms)}
+.card::before{content:"";position:absolute;left:22px;right:22px;top:7px;height:22%;border-radius:32px;background:linear-gradient(rgba(255,255,255,.42),rgba(255,255,255,0));pointer-events:none}
+.card{min-height:clamp(104px,16vh,200px);padding:8px 12px 12px}
+.hello .mascot{width:clamp(84px,11vw,130px)}
+.bubble{font-size:clamp(22px,3.2vw,34px);padding:8px 20px}
+#s-home .bar{min-height:52px}
+.card .art{font-size:clamp(48px,7vw,78px)}
+#s-home{gap:12px}
+.sections,.games{gap:16px}
+.game-card{padding:10px 14px}
+.card:active{transform:translateY(8px) scale(.98);box-shadow:0 2px 0 var(--edge)}
+.card .art{filter:drop-shadow(0 6px 0 rgba(0,0,0,.10));animation:floaty 3.2s ease-in-out infinite alternate;animation-delay:calc(var(--i,0)*-0.8s)}
+.card .ttl{color:#fff;text-shadow:0 3px 0 var(--edge),0 0 3px var(--edge),0 0 1px var(--edge)}
+.dots i{border:4px solid #fff;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+@keyframes floaty{from{transform:translateY(3px)}to{transform:translateY(-7px)}}
+@keyframes popIn{0%{opacity:0;transform:scale(.6) translateY(20px)}100%{opacity:1;transform:none}}
+.game-card{border:6px solid var(--rim);border-radius:40px;background:linear-gradient(180deg,var(--g1),var(--g2));box-shadow:0 9px 0 var(--edge),0 16px 26px var(--shadow);color:#fff;position:relative;overflow:hidden;
+  animation:popIn .55s var(--spring) both;animation-delay:calc(var(--i,0)*80ms + 320ms)}
+.game-card::before{content:"";position:absolute;left:22px;right:22px;top:6px;height:26%;border-radius:30px;background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,0))}
+.game-card .gt{text-shadow:0 3px 0 var(--edge),0 0 3px var(--edge)}
+.game-card .gi{filter:drop-shadow(0 4px 0 rgba(0,0,0,.12))}
+.game-card:active{transform:translateY(7px);box-shadow:0 2px 0 var(--edge)}
+
+/* section */
+.bar h1{flex:0 1 auto;background:#fff;border:5px solid var(--rim);border-radius:40px;padding:2px 28px 6px;box-shadow:0 6px 0 rgba(0,0,0,.08);animation:pop .45s var(--spring) both}
+.tile{border:5px solid var(--rim);border-radius:36px;background:linear-gradient(180deg,#FFFFFF,#F6F1FF);box-shadow:0 8px 0 rgba(60,40,120,.12),0 12px 20px var(--shadow);
+  animation:popIn .5s var(--spring) both;animation-delay:calc(var(--i,0)*45ms)}
+.tile:active{transform:translateY(6px) scale(.97);box-shadow:0 2px 0 rgba(60,40,120,.12)}
+.tile .pic,.tile .swatch{filter:drop-shadow(0 4px 0 rgba(0,0,0,.08))}
+.pic{border:4px solid #fff;box-shadow:inset 0 -6px 0 rgba(0,0,0,.05)}
+.chip{border:3px solid #fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16),0 3px 0 rgba(0,0,0,.10);border-radius:18px}
+
+/* detail */
+.modal{background:rgba(59,47,92,.35);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.sheet{border:7px solid var(--rim);border-radius:46px;background:linear-gradient(180deg,#FFFFFF 0%,#FFF7E8 100%);animation:sheetIn .45s var(--spring)}
+@keyframes sheetIn{from{transform:scale(.7) translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.big-btn{position:relative;padding-bottom:18px}
+.big-btn::after{content:"";position:absolute;left:18%;right:18%;bottom:0;height:18px;border-radius:50%;background:rgba(59,47,92,.14);z-index:-1}
+.big-btn.drop{animation:dropIn .6s var(--spring)}
+@keyframes dropIn{0%{transform:translateY(-60px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
+.phrase{border:4px solid #fff;background:linear-gradient(180deg,#FFF1C7,#FFE08A);box-shadow:0 5px 0 #E8B93A;color:var(--ink)}
+.phrase:active{transform:translateY(4px);box-shadow:0 1px 0 #E8B93A}
+
+/* games */
+.choice{border:7px solid var(--rim);border-radius:44px;background:linear-gradient(180deg,#FFFFFF,#F3EEFF);box-shadow:0 10px 0 rgba(60,40,120,.14),0 16px 26px var(--shadow);
+  animation:popIn .5s var(--spring) both;animation-delay:calc(var(--i,0)*90ms)}
+.choice:active{transform:scale(.96)}
+.choice.right{border-color:var(--ok);box-shadow:0 10px 0 #2A9A51,0 0 0 8px rgba(62,196,109,.35);animation:jump .7s var(--spring)}
+@keyframes jump{0%{transform:none}35%{transform:translateY(-34px) scale(1.08)}65%{transform:translateY(0) scale(.96,1.04)}100%{transform:none}}
+.choice.nope{animation:wob .45s;opacity:.6;filter:saturate(.6)}
+.prompt{background:#fff;border:5px solid var(--rim);border-radius:40px;padding:6px 24px;align-self:center;box-shadow:0 6px 0 rgba(0,0,0,.08);animation:pop .4s var(--spring)}
+.prompt .hand{animation:poke 1.2s ease-in-out infinite}
+@keyframes poke{50%{transform:translateY(8px)}}
+.dotsbar i{width:22px;height:22px;background:rgba(255,255,255,.7);border:3px solid #fff}
+.dotsbar i.on{background:var(--sunny);box-shadow:0 0 0 3px #FFB938;animation:boing .5s}
+.mcard{border:6px solid var(--rim);border-radius:38px;background:linear-gradient(180deg,#FFFFFF,#F3EEFF);box-shadow:0 8px 0 rgba(60,40,120,.14),0 14px 22px var(--shadow);
+  animation:popIn .5s var(--spring) both;animation-delay:calc(var(--i,0)*70ms)}
+.mcard.sel{border-color:var(--sunny);box-shadow:0 8px 0 #E8B020,0 0 0 8px rgba(255,212,59,.45);transform:translateY(-8px) scale(1.04)}
+.mcard.done{opacity:1;border-color:var(--ok);box-shadow:0 6px 0 #2A9A51;animation:jump .7s var(--spring);filter:saturate(.7) brightness(1.05)}
+.mid{color:#fff;font-size:46px;text-shadow:0 3px 0 rgba(0,0,0,.15)}
+.seg button{border:4px solid #fff;background:rgba(255,255,255,.9)}
+.seg button[aria-pressed="true"]{background:linear-gradient(180deg,#FFE680,var(--sunny));box-shadow:0 5px 0 #E8B020}
+.mascot.corner{position:absolute;left:12px;bottom:10px;width:clamp(90px,12vw,130px);pointer-events:none}
+
+/* mascot life */
+.mascot .eyes{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.mascot.hop{animation:hop .7s var(--spring)!important}
+@keyframes hop{0%{transform:none}30%{transform:translateY(-36px) rotate(-6deg)}60%{transform:translateY(0) scale(1.06,.94)}100%{transform:none}}
+
+/* pick / celebrate */
+.pick{border:5px solid var(--rim);border-radius:32px;background:linear-gradient(180deg,var(--tint),var(--mid,var(--tint)));color:#fff;text-shadow:0 2px 0 var(--edge),0 0 3px var(--edge);
+  animation:popIn .45s var(--spring) both;animation-delay:calc(var(--i,0)*50ms)}
+.cele{overflow:hidden}
+.cele::before{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg,rgba(255,212,59,.22) 0 10deg,transparent 10deg 20deg);animation:spin 22s linear infinite;z-index:0}
+.cele > *{position:relative;z-index:1}
+.cele h2{color:var(--candy);text-shadow:0 4px 0 #fff,0 0 2px #fff;animation:pop .5s var(--spring) .1s both}
+.cele .mascot{width:170px;animation:hop 1s var(--spring) .2s}
+.pill{border:5px solid #fff;background:linear-gradient(180deg,#FFE680,var(--sunny));box-shadow:0 6px 0 #E0A818}
+.pill.alt{background:linear-gradient(180deg,#9FE3FF,#4CB8F2);box-shadow:0 6px 0 #1E85C7;color:#fff}
+
+/* confetti */
+.conf{position:fixed;width:14px;height:14px;border-radius:4px;z-index:60;pointer-events:none;animation:conf 1.3s cubic-bezier(.2,.7,.4,1) forwards}
+.conf.c{border-radius:50%}
+@keyframes conf{0%{transform:translate(0,0) rotate(0) scale(.4);opacity:1}60%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(1);opacity:0}}
+
+/* parent area keeps a calm, readable look */
+.parent{background:#FFFDF7}
+.parent .round{background:#F2E8D6;color:var(--ink);border:0;box-shadow:0 3px 0 #E2D4BC}
+.parent .round::before{display:none}
+.parent .bar h1{background:none;border:0;box-shadow:none;padding:0;animation:none}
 </style>
 
+<div id="scene" aria-hidden="true"></div>
 <div id="app" dir="rtl" lang="ar">
 
 <!-- HOME -->
@@ -206,8 +341,8 @@ textarea{width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(-
   </div>
   <div class="sections" id="section-cards"></div>
   <div class="games">
-    <button class="game-card" style="--edge:var(--brick)" data-game="find"><span class="gi">🔎</span><span class="gt">أين الصورة؟</span></button>
-    <button class="game-card" style="--edge:var(--leaf)" data-game="match"><span class="gi">🧩</span><span class="gt">طابِق</span></button>
+    <button class="game-card" style="--g1:#FFA6A6;--g2:#FF6B6B;--edge:#D94848;--i:4" data-game="find"><span class="gi">🔎</span><span class="gt">أين الصورة؟</span></button>
+    <button class="game-card" style="--g1:#8EDCFF;--g2:#3BA9F0;--edge:#1E85C7;--i:5" data-game="match"><span class="gi">🧩</span><span class="gt">طابِق</span></button>
   </div>
 </section>
 
@@ -229,6 +364,7 @@ textarea{width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(-
   </div>
   <div class="prompt" id="find-prompt"></div>
   <div class="choices" id="find-choices"></div>
+  <svg class="mascot corner" data-mascot viewBox="0 0 140 140" aria-hidden="true"></svg>
 </section>
 
 <!-- MATCH GAME -->
@@ -269,6 +405,10 @@ textarea{width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(-
   <div class="ppanel" id="p-progress" hidden></div>
 
   <div class="ppanel" id="p-settings" hidden>
+    <div class="pcard">
+      <h2>المؤثرات الصوتية</h2>
+      <label class="hint" style="display:flex;gap:10px;align-items:center;font-size:15px"><input type="checkbox" id="sfx-on" style="width:22px;height:22px"> أصوات خفيفة عند اللمس والإجابة الصحيحة</label>
+    </div>
     <div class="pcard">
       <h2>صوت الجهاز</h2>
       <div id="voice-info" class="hint"></div>
@@ -359,10 +499,10 @@ textarea{width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(-
 
 /* ---------- content ---------- */
 const SECTIONS = [
-  {id:'animals', title:'الحيوانات', art:['🦁','🐫','🐱'], tint:'#FFE3C7', edge:'#EE8A3C', ink:'#8A3F0C'},
-  {id:'family',  title:'العائلة',   art:['👩','👨','👧'], tint:'#D7EFF3', edge:'#3E9FB2', ink:'#145565'},
-  {id:'body',    title:'جسمي',      art:['👀','👃','✋'], tint:'#EADFF6', edge:'#6B3FA0', ink:'#4A2477'},
-  {id:'colors',  title:'الألوان',   art:null,             tint:'#FFF0B8', edge:'#E5A823', ink:'#7A5200'},
+  {id:'animals', title:'الحيوانات', art:['🦁','🐫','🐱'], tint:'#B4EB76', mid:'#62C24A', edge:'#3E9A33', ink:'#2F7A27'},
+  {id:'family',  title:'العائلة',   art:['👩','👨','👧'], tint:'#FFC7D8', mid:'#FF7FA8', edge:'#E0527F', ink:'#C23D69'},
+  {id:'body',    title:'جسمي',      art:['👀','👃','✋'], tint:'#D6C2FF', mid:'#9B6BFF', edge:'#7446E0', ink:'#5E35C2'},
+  {id:'colors',  title:'الألوان',   art:null,             tint:'#FFEA8A', mid:'#FFB938', edge:'#E08F12', ink:'#B36A00'},
 ];
 // fw/fp = الفصحى word / short sentence
 const ITEMS = [
@@ -440,7 +580,7 @@ const primary = item => forms(item)[0];
 const itemStat = id => (S.prog.items[id] ||= {taps:0, right:0, tries:0, last:0});
 const known = id => { const s = S.prog.items[id]; return !!s && s.right >= 2 && s.right / Math.max(1, s.tries) >= .6; };
 function logRecent(text){ S.prog.recent.unshift({t:Date.now(), text}); S.prog.recent.length = Math.min(S.prog.recent.length, 25); save(); }
-function addStars(n){ S.prog.stars += n; save(); renderStars(); }
+function addStars(n){ S.prog.stars += n; save(); renderStars(); const el = document.querySelector('.stars'); el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
 
 const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -537,8 +677,8 @@ function mascotSVG(){
   <ellipse cx="70" cy="62" rx="38" ry="40" fill="#EBB872"/>
   <path d="M56 26c4-10 10-12 14-6 4-8 12-6 14 4" fill="#B9773A"/>
   <ellipse cx="70" cy="84" rx="26" ry="19" fill="#F7DDB0"/>
-  <circle cx="55" cy="56" r="7.5" fill="#2A2440"/><circle cx="85" cy="56" r="7.5" fill="#2A2440"/>
-  <circle cx="57.5" cy="53.5" r="2.6" fill="#fff"/><circle cx="87.5" cy="53.5" r="2.6" fill="#fff"/>
+  <g class="eyes"><circle cx="55" cy="56" r="7.5" fill="#2A2440"/><circle cx="85" cy="56" r="7.5" fill="#2A2440"/>
+  <circle cx="57.5" cy="53.5" r="2.6" fill="#fff"/><circle cx="87.5" cy="53.5" r="2.6" fill="#fff"/></g>
   <path d="M47 47l-4-4M51 45l-2-5M93 47l4-4M89 45l2-5" stroke="#2A2440" stroke-width="2.4" stroke-linecap="round"/>
   <ellipse cx="44" cy="70" rx="7" ry="4.5" fill="#F29A8E" opacity=".7"/><ellipse cx="96" cy="70" rx="7" ry="4.5" fill="#F29A8E" opacity=".7"/>
   <ellipse cx="62" cy="80" rx="2.4" ry="3.2" fill="#8C5A2B"/><ellipse cx="78" cy="80" rx="2.4" ry="3.2" fill="#8C5A2B"/>
@@ -547,20 +687,84 @@ function mascotSVG(){
 document.querySelectorAll('[data-mascot]').forEach(s => s.innerHTML = mascotSVG());
 
 function renderStars(){ $('#star-count').textContent = AR(S.prog.stars); }
+const CONF = ['#FF6B6B','#FFD43B','#3EC46D','#4CB8F2','#9B6BFF','#FF7BAC','#FF9F43'];
 function sparkle(x, y, n=5){
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  for (let i = 0; i < n; i++){ const s = document.createElement('span'); s.className = 'float'; s.textContent = '⭐';
-    s.style.left = (x - 20 + (Math.random()-.5)*120) + 'px'; s.style.top = (y - 20 + (Math.random()-.5)*40) + 'px'; s.style.animationDelay = (i*70)+'ms';
-    document.body.appendChild(s); setTimeout(() => s.remove(), 1900); }
+  for (let i = 0; i < n * 4; i++){ const c = document.createElement('span'); c.className = 'conf' + (i % 2 ? ' c' : '');
+    const a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 160;
+    c.style.cssText = `left:${x}px;top:${y}px;background:${CONF[i % CONF.length]};--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d + 120}px;--r:${Math.random()*540}deg;animation-delay:${i*12}ms`;
+    document.body.appendChild(c); setTimeout(() => c.remove(), 1600); }
+}
+function hop(sel){ document.querySelectorAll(sel).forEach(m => { m.classList.remove('hop'); void m.getBoundingClientRect(); m.classList.add('hop'); }); }
+
+/* soft UI sounds, made in the browser (no recordings needed) */
+let actx = null;
+function sfx(type){
+  if (S.settings.sfx === false) return;
+  try {
+    actx ||= new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume();
+    const t0 = actx.currentTime;
+    const tone = (f, at, dur, vol=.10, wave='sine', f2) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = wave;
+      o.frequency.setValueAtTime(f, t0 + at); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + at + dur);
+      g.gain.setValueAtTime(0.0001, t0 + at); g.gain.exponentialRampToValueAtTime(vol, t0 + at + .012); g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur);
+      o.connect(g).connect(actx.destination); o.start(t0 + at); o.stop(t0 + at + dur + .03); };
+    if (type === 'pop') tone(420, 0, .09, .07, 'sine', 900);
+    if (type === 'yay'){ tone(660, 0, .14); tone(880, .09, .16); tone(1320, .18, .28, .08); }
+    if (type === 'oops'){ tone(392, 0, .16, .06, 'triangle'); tone(311, .12, .22, .06, 'triangle'); }
+    if (type === 'fanfare'){ [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .11, .22, .08, 'triangle')); tone(1047, .48, .5, .07); }
+    if (type === 'whoosh') tone(300, 0, .18, .05, 'sine', 700);
+  } catch(e){}
+}
+document.addEventListener('click', e => { const b = e.target.closest('button'); if (b && !b.closest('.choice,.mcard,.parent,#m-gate')) sfx('pop'); }, true);
+
+/* scenery behind each screen */
+let sceneFor = 'home';
+const CLOUD = (x, y, s, dur, delay) => `<g class="cloud" style="animation-duration:${dur}s;animation-delay:-${delay}s"><g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity=".95">
+  <ellipse cx="0" cy="20" rx="70" ry="28"/><circle cx="-30" cy="6" r="30"/><circle cx="12" cy="-4" r="38"/><circle cx="46" cy="12" r="26"/></g></g>`;
+const SKY = () => `${CLOUD(0,120,1,80,10)}${CLOUD(0,230,.7,110,60)}${CLOUD(0,70,.55,140,100)}
+  <g transform="translate(120 150) scale(.85)"><g class="sunrays">${Array.from({length:12},(_, i) => `<rect x="-6" y="-112" width="12" height="34" rx="6" fill="#FFE27A" transform="rotate(${i*30})"/>`).join('')}</g>
+  <circle r="62" fill="#FFD43B"/><circle r="62" fill="none" stroke="#FFB938" stroke-width="6"/><circle cx="-20" cy="-8" r="6" fill="#B36A00"/><circle cx="20" cy="-8" r="6" fill="#B36A00"/>
+  <path d="M-18 16q18 16 36 0" stroke="#B36A00" stroke-width="6" fill="none" stroke-linecap="round"/></g>`;
+const HILLS = (back='#A6E070', front='#7CCB52') => `<path d="M0 600 Q250 470 520 560 T1200 520 V800 H0Z" fill="${back}"/>
+  <path d="M0 660 Q300 560 640 650 T1200 610 V800 H0Z" fill="${front}"/>
+  ${[[90,700],[260,720],[420,690],[700,715],[860,690],[1010,730],[1130,700]].map(([x,y],i) => `<g transform="translate(${x} ${y})"><rect x="-2" y="0" width="4" height="18" fill="#4E9A3A"/>
+    <g fill="${['#FF7BAC','#FFD43B','#FFFFFF','#9B6BFF'][i%4]}">${[0,72,144,216,288].map(a => `<circle cx="${Math.cos(a*Math.PI/180)*8}" cy="${Math.sin(a*Math.PI/180)*8}" r="6"/>`).join('')}</g><circle r="5" fill="#FFB938"/></g>`).join('')}`;
+const TREE = (x, y, s=1) => `<g class="sway" transform="translate(${x} ${y}) scale(${s})"><rect x="-12" y="-10" width="24" height="90" rx="10" fill="#B9773A"/>
+  <circle cx="0" cy="-60" r="62" fill="#5FB548"/><circle cx="-44" cy="-20" r="42" fill="#6CC04A"/><circle cx="44" cy="-24" r="44" fill="#6CC04A"/><circle cx="-14" cy="-80" r="10" fill="#FF6B6B"/><circle cx="26" cy="-44" r="10" fill="#FF6B6B"/></g>`;
+const SCENES = {
+  home: () => SKY() + HILLS() + TREE(140, 600, .9) + TREE(1060, 590, .75),
+  animals: () => SKY() + HILLS('#B4EB76','#7CCB52') +
+    `<g transform="translate(930 470)"><rect x="0" y="40" width="190" height="140" fill="#E5574B" rx="6"/><path d="M-14 46 L95 -30 L204 46Z" fill="#B23A33"/>
+     <rect x="65" y="100" width="60" height="80" fill="#fff"/><path d="M65 100 L125 180 M125 100 L65 180" stroke="#E5574B" stroke-width="8"/><circle cx="95" cy="20" r="16" fill="#fff"/></g>
+     <g fill="#F3C98B" stroke="#C98E4E" stroke-width="4">${Array.from({length:9},(_, i) => `<rect x="${40+i*95}" y="610" width="22" height="90" rx="6"/>`).join('')}
+     <rect x="30" y="628" width="820" height="16" rx="8"/><rect x="30" y="664" width="820" height="16" rx="8"/></g>`,
+  family: () => `<rect width="1200" height="800" fill="#FFE6CF"/>${Array.from({length:60},(_, i) => `<circle cx="${(i%12)*104+40}" cy="${Math.floor(i/12)*110+40}" r="9" fill="#FFD3AE"/>`).join('')}
+    <g transform="translate(820 110)"><rect width="300" height="240" rx="24" fill="#BDEBFF" stroke="#fff" stroke-width="16"/>${'<g clip-path="inset(0)"></g>'}
+      <ellipse cx="90" cy="120" rx="50" ry="20" fill="#fff"/><circle cx="230" cy="70" r="30" fill="#FFD43B"/><rect x="142" y="0" width="16" height="240" fill="#fff"/><rect x="0" y="112" width="300" height="16" fill="#fff"/></g>
+    <g transform="translate(150 150)"><rect width="170" height="140" rx="16" fill="#FFB938" stroke="#fff" stroke-width="10"/><path d="M85 112 C20 70 40 20 85 50 C130 20 150 70 85 112Z" fill="#FF7BAC"/></g>
+    <rect y="600" width="1200" height="200" fill="#E7B47C"/>${Array.from({length:7},(_, i) => `<rect x="${i*180}" y="600" width="6" height="200" fill="#D69A5E"/>`).join('')}
+    <ellipse cx="600" cy="710" rx="420" ry="60" fill="#FF9EBB"/><ellipse cx="600" cy="710" rx="360" ry="44" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="18 14"/>`,
+  body: () => `<rect width="1200" height="800" fill="#E7DDFF"/>${Array.from({length:8},(_, i) => `<rect x="${i*160}" y="0" width="80" height="800" fill="#DED1FF"/>`).join('')}
+    <g transform="translate(860 120)"><ellipse cx="110" cy="150" rx="110" ry="150" fill="#fff"/><ellipse cx="110" cy="150" rx="92" ry="132" fill="#CFF1FF"/><path d="M60 80 L100 40 M70 130 L130 70" stroke="#fff" stroke-width="12" stroke-linecap="round"/></g>
+    <rect y="620" width="1200" height="180" fill="#C9B6F7"/>
+    ${Array.from({length:14},(_, i) => `<circle class="bub" style="animation-duration:${9+i%5*2}s;animation-delay:-${i*1.3}s" cx="${60+i*82}" cy="${820}" r="${10+i%4*7}" fill="rgba(255,255,255,.55)" stroke="#fff" stroke-width="3"/>`).join('')}`,
+  colors: () => SKY() + `<g fill="none" stroke-width="34" transform="translate(600 640)">${['#FF6B6B','#FF9F43','#FFD43B','#3EC46D','#4CB8F2','#9B6BFF'].map((c, i) => `<path d="M${-520+i*34} 0 A${520-i*34} ${520-i*34} 0 0 1 ${520-i*34} 0" stroke="${c}"/>`).join('')}</g>` + HILLS(),
+};
+function renderScene(name){
+  const key = name === 'section' ? sceneFor : name === 'parent' ? 'plain' : (name === 'find' || name === 'match') ? 'home' : name;
+  document.body.dataset.scene = key;
+  if (key === 'plain' || renderScene.last === key) return; renderScene.last = key;
+  $('#scene').innerHTML = `<svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice">${SCENES[key]()}</svg>`;
 }
 
 /* ---------- navigation ---------- */
 let current = 'home';
 function show(name){
   stopSound(); current = name;
-  document.querySelectorAll('.screen').forEach(s => s.hidden = s.id !== 's-' + name);
+  document.querySelectorAll('.screen').forEach(s => { s.hidden = s.id !== 's-' + name; s.classList.remove('enter'); });
+  const scr = $('#s-' + name); void scr.offsetWidth; scr.classList.add('enter'); renderScene(name);
   document.querySelectorAll('.modal').forEach(m => m.hidden = true);
-  if (name === 'home') renderStars();
+  if (name === 'home'){ renderStars(); renderHome(); }
 }
 document.querySelectorAll('[data-home]').forEach(b => b.addEventListener('click', () => show('home')));
 document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => {
@@ -569,20 +773,21 @@ document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e =
 
 /* ---------- home ---------- */
 function renderHome(){
-  $('#section-cards').innerHTML = SECTIONS.map(s => `
-    <button class="card" data-sec="${s.id}" style="--tint:${s.tint};--edge:${s.edge};--edge-ink:${s.ink}">
+  $('#section-cards').innerHTML = SECTIONS.map((s, i) => `
+    <button class="card" data-sec="${s.id}" style="--tint:${s.tint};--mid:${s.mid};--edge:${s.edge};--edge-ink:${s.ink};--i:${i}">
       <span class="art">${s.art ? `<small>${s.art[1]}</small>${s.art[0]}<small>${s.art[2]}</small>` :
         `<span class="dots">${['#E2433A','#F7CB2D','#2F6FD6','#3FA34D'].map(c => `<i style="--c:${c}"></i>`).join('')}</span>`}</span>
       <span class="ttl">${s.title}</span></button>`).join('');
 }
+document.querySelector('.hello .mascot').addEventListener('click', () => { hop('.hello .mascot'); sfx('whoosh'); });
 $('#section-cards').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (b) openSection(b.dataset.sec); });
 
 /* ---------- section ---------- */
 let secItems = [];
 function openSection(id){
   const s = SECTIONS.find(x => x.id === id); secItems = inCat(id);
-  $('#sec-title').textContent = s.title; $('#sec-title').style.color = s.ink;
-  $('#sec-grid').innerHTML = secItems.map((it, i) => `<button class="tile" data-i="${i}">${picHTML(it, i)}${chipHTML(primary(it)[1], '26px')}</button>`).join('');
+  $('#sec-title').textContent = s.title; $('#sec-title').style.color = s.ink; sceneFor = id;
+  $('#sec-grid').innerHTML = secItems.map((it, i) => `<button class="tile" data-i="${i}" style="--i:${i}">${picHTML(it, i)}${chipHTML(primary(it)[1], '26px')}</button>`).join('');
   show('section'); if (clipFor(forSpeech(s.title))) sayText(s.title); // only a real recording, never the robot voice
 }
 $('#sec-grid').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) openDetail(+b.dataset.i); });
@@ -599,9 +804,9 @@ function openDetail(i){
   $('#d-phrase').hidden = !fp[0][1];
   $('#m-detail').hidden = false;
   const st = itemStat(it.id); st.taps++; st.last = Date.now(); save();
-  boing(); sayItem(it);
+  const b = $('#d-pic'); b.classList.remove('drop','boing'); void b.offsetWidth; b.classList.add('drop'); sayItem(it);
 }
-function boing(){ const b = $('#d-pic'); b.classList.remove('boing'); void b.offsetWidth; b.classList.add('boing'); }
+function boing(){ const b = $('#d-pic'); b.classList.remove('boing','drop'); void b.offsetWidth; b.classList.add('boing'); }
 $('#d-pic').addEventListener('click', () => { boing(); sayItem(secItems[dIdx]); });
 $('#d-phrase').addEventListener('click', () => sayItem(secItems[dIdx], 'p'));
 $('#d-prev').addEventListener('click', () => openDetail(dIdx - 1));
@@ -612,8 +817,8 @@ let pendingGame = null, lastCat = 'all';
 document.querySelectorAll('[data-game]').forEach(b => b.addEventListener('click', () => {
   pendingGame = b.dataset.game;
   $('#pick-title').textContent = pendingGame === 'find' ? 'أين الصورة؟' : 'طابِق';
-  $('#pick-grid').innerHTML = [{id:'all', title:'الكل', art:['🌈'], tint:'#FFF6E3', edge:'#E5A823'}, ...SECTIONS].map(s =>
-    `<button class="pick" data-cat="${s.id}" style="--tint:${s.tint};--edge:${s.edge}"><span>${s.art ? s.art[0] : '🎨'}</span>${s.title}</button>`).join('');
+  $('#pick-grid').innerHTML = [{id:'all', title:'الكل', art:['🌈'], tint:'#9FE3FF', mid:'#4CB8F2', edge:'#1E85C7'}, ...SECTIONS].map((s, i) =>
+    `<button class="pick" data-cat="${s.id}" style="--tint:${s.tint};--mid:${s.mid};--edge:${s.edge};--i:${i}"><span>${s.art ? s.art[0] : '🎨'}</span>${s.title}</button>`).join('');
   $('#m-pick').hidden = false;
 }));
 $('#pick-grid').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; lastCat = b.dataset.cat; startGame(pendingGame, lastCat); });
@@ -624,7 +829,7 @@ let celeAgain = null;
 function celebrate(stars, again){
   addStars(stars); celeAgain = again;
   $('#cele-earned').textContent = `+${AR(stars)} ⭐`; $('#m-cele').hidden = false;
-  sparkle(innerWidth/2, innerHeight/2, 8); sayText(['رائع!','ممتاز!','برافو!'][Math.random()*3|0]);
+  sparkle(innerWidth/2, innerHeight/2, 10); sfx('fanfare'); setTimeout(() => hop('.cele .mascot'), 50); sayText(['رائع!','ممتاز!','برافو!'][Math.random()*3|0]);
 }
 $('#cele-again').addEventListener('click', () => { $('#m-cele').hidden = true; celeAgain && celeAgain(); });
 $('#cele-home').addEventListener('click', () => show('home'));
@@ -650,7 +855,7 @@ const Find = {
     $('#find-dots').innerHTML = Array.from({length:this.total}, (_, i) => `<i class="${i < this.round ? 'on' : ''}"></i>`).join('');
     $('#find-prompt').innerHTML = `<span class="hand">👆</span>${chipHTML(primary(this.target)[1], 'clamp(40px,6vw,58px)')}`;
     const box = $('#find-choices'); box.style.setProperty('--n', n);
-    box.innerHTML = choices.map((c, i) => `<button class="choice" data-id="${c.id}" aria-label="${esc(primary(c)[1])}">${picHTML(c, i)}</button>`).join('');
+    box.innerHTML = choices.map((c, i) => `<button class="choice" style="--i:${i}" data-id="${c.id}" aria-label="${esc(primary(c)[1])}">${picHTML(c, i)}</button>`).join('');
     setTimeout(() => this.say(), 300);
   },
   say(){ if (this.target) sayItem(this.target, 'w', primary(this.target)[0]); },
@@ -658,13 +863,13 @@ const Find = {
     if (this.locked) return; const it = BYID[btn.dataset.id], st = itemStat(this.target.id);
     if (it === this.target){
       this.locked = true; if (!this.missed){ st.tries++; st.right++; this.streak++; S.prog.games.find.right++; } S.prog.games.find.tries++;
-      st.last = Date.now(); save(); btn.classList.add('right');
+      st.last = Date.now(); save(); btn.classList.add('right'); sfx('yay'); hop('#s-find .mascot');
       const r = btn.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top + r.height/3, 4); addStars(1);
       stopSound(); const tok = playToken; await sayForm(this.target, primary(this.target)[0], 'w', tok); await sleep(150); await tts(PRAISE[Math.random()*PRAISE.length|0], tok);
       await sleep(500); if (current === 'find'){ this.round++; this.next(); }
     } else {
       if (!this.missed){ this.missed = true; st.tries++; this.streak = 0; S.prog.games.find.tries++; save(); }
-      btn.classList.remove('nope'); void btn.offsetWidth; btn.classList.add('nope');
+      btn.classList.remove('nope'); void btn.offsetWidth; btn.classList.add('nope'); sfx('oops');
       // name the picture they tapped, then gently ask again
       await sayItem(it, 'w', primary(it)[0]); const tok = playToken; await sleep(350);
       if (tok === playToken && current === 'find' && !this.locked) this.say();
@@ -683,7 +888,7 @@ const Match = {
     logRecent(`لعبة «طابِق» – ${catName(cat)}`); show('match'); this.render(); },
   render(){
     document.querySelectorAll('#match-kind button').forEach(b => b.setAttribute('aria-pressed', b.dataset.kind === this.kind));
-    const card = (it, side, i) => `<button class="mcard" data-side="${side}" data-id="${it.id}" aria-label="${esc(primary(it)[1])}">${
+    const card = (it, side, i) => `<button class="mcard" style="--i:${side === 'b' ? i + 1 : i}" data-side="${side}" data-id="${it.id}" aria-label="${esc(primary(it)[1])}">${
       side === 'b' && this.kind === 'word' ? chipHTML(primary(it)[1], 'clamp(26px,4vw,40px)') : picHTML(it, i)}</button>`;
     $('#match-top').innerHTML = shuffle(this.pairs).map((it, i) => card(it, 't', i)).join('');
     $('#match-bottom').innerHTML = shuffle(this.pairs).map((it, i) => card(it, 'b', i + 2)).join('');
@@ -698,10 +903,10 @@ const Match = {
     const st = itemStat(it.id); st.tries++;
     if (a.dataset.id === btn.dataset.id){
       st.right++; st.last = Date.now(); a.classList.add('done'); btn.classList.add('done'); this.done++; S.prog.games.match.pairs++; save();
-      const r = btn.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top, 3);
+      const r = btn.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top, 3); sfx('yay');
       if (this.done === this.pairs.length) setTimeout(() => current === 'match' && celebrate(3, () => this.start(this.cat)), 1100);
     } else {
-      save(); [a, btn].forEach(b => { b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); });
+      save(); sfx('oops'); [a, btn].forEach(b => { b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); });
     }
   }
 };
@@ -802,9 +1007,10 @@ function renderProgress(){
 }
 
 function renderSettings(){
-  $('#rate').value = S.settings.rate; pickVoice();
+  $('#rate').value = S.settings.rate; $('#sfx-on').checked = S.settings.sfx !== false; pickVoice();
   document.querySelectorAll('[data-confirm]').forEach(resetConfirm);
 }
+$('#sfx-on').addEventListener('change', e => { S.settings.sfx = e.target.checked; save(); });
 $('#rate').addEventListener('input', e => { S.settings.rate = +e.target.value; save(); });
 $('#test-voice').addEventListener('click', () => sayText('مرحبًا، هذا صوت الجهاز. قِطّة، أَسَد، جَمَل'));
 $('#copy-edits').addEventListener('click', async () => {
