@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="google" content="notranslate">
 <meta name="robots" content="noindex,nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -318,6 +319,18 @@ body[data-scene="plain"] #scene{display:none}
 .conf.c{border-radius:50%}
 @keyframes conf{0%{transform:translate(0,0) rotate(0) scale(.4);opacity:1}60%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(1);opacity:0}}
 
+/* illustrations */
+.art-svg{display:block;width:84%;height:84%;overflow:visible}
+.pic .art-svg{width:86%;height:86%}
+.swatch .mini{width:58%;height:58%;left:-10%;bottom:-10%}
+.swatch .mini .art-svg{width:84%;height:84%}
+.card .art{display:flex;align-items:flex-end;justify-content:center;gap:0;height:1.5em}
+.card .art .art-svg.main{width:1.5em;height:1.5em}
+.card .art .art-svg.side{width:1em;height:1em}
+.pick span{display:block;width:56px;height:56px}.pick span .art-svg{width:100%;height:100%}
+.game-card .gi{display:block;width:1.15em;height:1.15em}.game-card .gi .art-svg{width:100%;height:100%}
+.vpic .art-svg{width:86%;height:86%}
+
 /* parent area keeps a calm, readable look */
 .parent{background:#FFFDF7}
 .parent .round{background:#F2E8D6;color:var(--ink);border:0;box-shadow:0 3px 0 #E2D4BC}
@@ -326,7 +339,7 @@ body[data-scene="plain"] #scene{display:none}
 </style>
 
 <div id="scene" aria-hidden="true"></div>
-<div id="app" dir="rtl" lang="ar">
+<div id="app" dir="rtl" lang="ar" translate="no" class="notranslate">
 
 <!-- HOME -->
 <section class="screen" id="s-home">
@@ -341,8 +354,8 @@ body[data-scene="plain"] #scene{display:none}
   </div>
   <div class="sections" id="section-cards"></div>
   <div class="games">
-    <button class="game-card" style="--g1:#FFA6A6;--g2:#FF6B6B;--edge:#D94848;--i:4" data-game="find"><span class="gi">🔎</span><span class="gt">أين الصورة؟</span></button>
-    <button class="game-card" style="--g1:#8EDCFF;--g2:#3BA9F0;--edge:#1E85C7;--i:5" data-game="match"><span class="gi">🧩</span><span class="gt">طابِق</span></button>
+    <button class="game-card" style="--g1:#FFA6A6;--g2:#FF6B6B;--edge:#D94848;--i:4" data-game="find"><span class="gi"><svg class="art-svg" viewBox="0 0 100 100" data-art="find"></svg></span><span class="gt">أين الصورة؟</span></button>
+    <button class="game-card" style="--g1:#8EDCFF;--g2:#3BA9F0;--edge:#1E85C7;--i:5" data-game="match"><span class="gi"><svg class="art-svg" viewBox="0 0 100 100" data-art="match"></svg></span><span class="gt">طابِق</span></button>
   </div>
 </section>
 
@@ -499,10 +512,10 @@ body[data-scene="plain"] #scene{display:none}
 
 /* ---------- content ---------- */
 const SECTIONS = [
-  {id:'animals', title:'الحيوانات', art:['🦁','🐫','🐱'], tint:'#B4EB76', mid:'#62C24A', edge:'#3E9A33', ink:'#2F7A27'},
-  {id:'family',  title:'العائلة',   art:['👩','👨','👧'], tint:'#FFC7D8', mid:'#FF7FA8', edge:'#E0527F', ink:'#C23D69'},
-  {id:'body',    title:'جسمي',      art:['👀','👃','✋'], tint:'#D6C2FF', mid:'#9B6BFF', edge:'#7446E0', ink:'#5E35C2'},
-  {id:'colors',  title:'الألوان',   art:null,             tint:'#FFEA8A', mid:'#FFB938', edge:'#E08F12', ink:'#B36A00'},
+  {id:'animals', title:'الحيوانات', art:['lion','camel','cat'], tint:'#B4EB76', mid:'#62C24A', edge:'#3E9A33', ink:'#2F7A27'},
+  {id:'family',  title:'العائلة',   art:['mama','baba','sister'], tint:'#FFC7D8', mid:'#FF7FA8', edge:'#E0527F', ink:'#C23D69'},
+  {id:'body',    title:'جسمي',      art:['eyes','hands','feet'], tint:'#D6C2FF', mid:'#9B6BFF', edge:'#7446E0', ink:'#5E35C2'},
+  {id:'colors',  title:'الألوان',   art:['palette','red','yellow'], tint:'#FFEA8A', mid:'#FFB938', edge:'#E08F12', ink:'#B36A00'},
 ];
 // fw/fp = الفصحى word / short sentence
 const ITEMS = [
@@ -551,6 +564,180 @@ const ITEMS = [
 ];
 const BYID = Object.fromEntries(ITEMS.map(i => [i.id, i]));
 const HALOS = ['#FFF1D6','#E3F3F6','#F1E8FA','#FDE7EE','#E8F4E2','#FFF6C9'];
+
+/* ---------- original illustrations (100×100), one shared cartoon style ---------- */
+const E = (x, y, r=4.5) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#2A2440"/><circle cx="${x + r*.35}" cy="${y - r*.38}" r="${r*.38}" fill="#fff"/>`;
+const BL = (x1, x2, y) => `<ellipse cx="${x1}" cy="${y}" rx="5" ry="3.2" fill="#FF8FA3" opacity=".55"/><ellipse cx="${x2}" cy="${y}" rx="5" ry="3.2" fill="#FF8FA3" opacity=".55"/>`;
+const SM = (cx, cy, w=7, c='#2A2440') => `<path d="M${cx-w} ${cy} Q${cx} ${cy + w*.9} ${cx+w} ${cy}" stroke="${c}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+const GS = `<ellipse cx="50" cy="94" rx="30" ry="4" fill="#000" opacity=".07"/>`;
+const SKIN = '#F2C29B', SKIN2 = '#E3A47A';
+const catArt = (fur='#F7B55A', ear='#F4A340', stripe='#E08A2E', muzzle='#FFF1DE', eye) => `${GS}
+  <path d="M20 42 L25 10 L46 30Z" fill="${ear}"/><path d="M80 42 L75 10 L54 30Z" fill="${ear}"/>
+  <path d="M26 34 L28 18 L40 29Z" fill="#FFC2C7"/><path d="M74 34 L72 18 L60 29Z" fill="#FFC2C7"/>
+  <ellipse cx="50" cy="56" rx="34" ry="30" fill="${fur}"/>
+  <path d="M50 28v9M42 30l2 8M58 30l-2 8" stroke="${stripe}" stroke-width="3.5" stroke-linecap="round"/>
+  <ellipse cx="50" cy="67" rx="14" ry="10" fill="${muzzle}"/>
+  ${eye ? `<circle cx="37" cy="52" r="6" fill="${eye}"/><circle cx="63" cy="52" r="6" fill="${eye}"/><ellipse cx="37" cy="52" rx="2" ry="4.5" fill="#1a1a1a"/><ellipse cx="63" cy="52" rx="2" ry="4.5" fill="#1a1a1a"/><circle cx="38.5" cy="50" r="1.4" fill="#fff"/><circle cx="64.5" cy="50" r="1.4" fill="#fff"/>` : E(37,52,5.5) + E(63,52,5.5)}
+  <path d="M46 61h8l-4 4z" fill="#FF7B93"/>
+  <path d="M50 65q-4 5-8 2M50 65q4 5 8 2" stroke="#2A2440" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M30 63h-13M30 68l-12 3M70 63h13M70 68l12 3" stroke="${stripe}" stroke-width="2" stroke-linecap="round"/>${BL(30,70,62)}`;
+
+/* people */
+const person = ({shirt, back='', hair='', extra='', mouth}) => `
+  <path d="M20 100Q22 78 50 78Q78 78 80 100Z" fill="${shirt}"/>${back}
+  <circle cx="26" cy="54" r="6" fill="${SKIN}"/><circle cx="74" cy="54" r="6" fill="${SKIN}"/>
+  <ellipse cx="50" cy="52" rx="24" ry="26" fill="${SKIN}"/>${hair}
+  ${E(41,52,3.8)}${E(59,52,3.8)}<ellipse cx="50" cy="59" rx="3" ry="2.3" fill="${SKIN2}"/>${BL(35,65,62)}
+  ${mouth || SM(50,65,6)}${extra}`;
+const GLASSES = `<g fill="none" stroke="#6E6280" stroke-width="2.4"><circle cx="41" cy="52" r="7.5"/><circle cx="59" cy="52" r="7.5"/><path d="M48.5 52h3"/></g>`;
+
+/* child face for the body section, with the taught part highlighted */
+const RING = shape => `<g fill="rgba(255,212,59,.28)" stroke="#FFB938" stroke-width="2.6" stroke-dasharray="5 3.5">${shape}</g>`;
+const kid = (hl='', big={}) => `
+  <path d="M20 100Q22 80 50 80Q78 80 80 100Z" fill="#4CB8F2"/>
+  <circle cx="25" cy="54" r="${big.ears ? 8 : 6}" fill="${SKIN}"/><circle cx="75" cy="54" r="${big.ears ? 8 : 6}" fill="${SKIN}"/>
+  ${big.ears ? `<circle cx="25" cy="54" r="3.5" fill="${SKIN2}"/><circle cx="75" cy="54" r="3.5" fill="${SKIN2}"/>` : ''}
+  <ellipse cx="50" cy="53" rx="25" ry="27" fill="${SKIN}"/>
+  <path d="M24 50Q22 16 50 16Q78 16 76 50Q72 31 58 31Q52 37 44 31Q30 31 24 50Z" fill="${big.hair ? '#7A4A2A' : '#5A3A24'}"/>
+  ${big.hair ? `<path d="M34 24q6-6 14-4M56 22q8 0 12 6" stroke="#A9714A" stroke-width="3" fill="none" stroke-linecap="round"/>` : ''}
+  ${E(40,52,big.eyes ? 5.6 : 4)}${E(60,52,big.eyes ? 5.6 : 4)}
+  ${big.eyes ? `<path d="M34 45l-2-3M37 44l-1-3.5M66 45l2-3M63 44l1-3.5" stroke="#2A2440" stroke-width="1.8" stroke-linecap="round"/>` : ''}
+  <ellipse cx="50" cy="60" rx="${big.nose ? 5.5 : 3}" ry="${big.nose ? 4.2 : 2.3}" fill="${SKIN2}"/>
+  ${big.mouth ? `<path d="M42 66Q50 77 58 66Z" fill="#C2405A"/><path d="M45 70q5 3 10 0" stroke="#FF8FA3" stroke-width="2.5" fill="none"/>` : SM(50,67,6)}
+  ${BL(35,65,63)}${hl ? RING(hl) : ''}`;
+const hand = (x, y, flip, s=1, tips) => `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})">
+  <rect x="-13" y="-4" width="26" height="28" rx="11" fill="${SKIN}"/>
+  ${[[-12,-20,20],[-5.5,-25,24],[1,-24,23],[7.5,-18,18]].map(([fx,fy,h], i) => `<rect x="${fx}" y="${fy}" width="6" height="${h}" rx="3" fill="${SKIN}"/>${tips ? `<circle cx="${fx+3}" cy="${fy+3.2}" r="2.6" fill="${tips[i]}"/>` : ''}`).join('')}
+  <rect x="9" y="2" width="6" height="16" rx="3" fill="${SKIN}" transform="rotate(-38 12 10)"/>${tips ? `<circle cx="19.5" cy="1" r="2.6" fill="${tips[4]}"/>` : ''}
+  <path d="M-6 8q6 4 12 0" stroke="${SKIN2}" stroke-width="1.6" fill="none"/>
+  <rect x="-14" y="20" width="28" height="9" rx="4" fill="#4CB8F2"/></g>`;
+const foot = (x, flip) => `<g transform="translate(${x} 56) scale(${flip ? -1 : 1} 1)">
+  <path d="M-10 -14Q-16 6 -10 24Q-4 34 6 30Q14 24 12 6Q12 -10 4 -16Z" fill="${SKIN}"/>
+  ${[[-8,-22,5.5],[1,-24,4.6],[8,-21,4],[13,-16,3.4],[15,-9,3]].map(([tx,ty,r]) => `<circle cx="${tx}" cy="${ty}" r="${r}" fill="${SKIN}"/>`).join('')}
+  <ellipse cx="0" cy="10" rx="5" ry="9" fill="${SKIN2}" opacity=".35"/></g>`;
+
+const ART = {
+  cat: catArt(),
+  dog: `${GS}<ellipse cx="22" cy="50" rx="11" ry="22" fill="#8A5A3B" transform="rotate(18 22 50)"/><ellipse cx="78" cy="50" rx="11" ry="22" fill="#8A5A3B" transform="rotate(-18 78 50)"/>
+    <ellipse cx="50" cy="52" rx="29" ry="30" fill="#D9A06B"/><ellipse cx="62" cy="44" rx="10" ry="9" fill="#B97B47"/>
+    <ellipse cx="50" cy="67" rx="16" ry="12" fill="#FFF1DE"/>${E(39,46,5)}${E(61,46,5)}<ellipse cx="50" cy="60" rx="6" ry="4.5" fill="#2A2440"/>
+    <path d="M46 70q4 10 8 0z" fill="#FF7B93"/><path d="M50 64v4M50 68q-5 4-9 0M50 68q5 4 9 0" stroke="#2A2440" stroke-width="2.2" fill="none" stroke-linecap="round"/>${BL(32,68,58)}`,
+  lion: `${GS}<circle cx="50" cy="52" r="34" fill="#D9772E"/>${Array.from({length:12}, (_, i) => { const a = i * Math.PI / 6; return `<circle cx="${50 + Math.cos(a)*33}" cy="${52 + Math.sin(a)*33}" r="11" fill="${i % 2 ? '#E68A3A' : '#C9682A'}"/>`; }).join('')}
+    <circle cx="31" cy="32" r="8" fill="#F7C35A"/><circle cx="69" cy="32" r="8" fill="#F7C35A"/><circle cx="31" cy="32" r="4" fill="#F29A8E"/><circle cx="69" cy="32" r="4" fill="#F29A8E"/>
+    <circle cx="50" cy="54" r="25" fill="#F7C35A"/><ellipse cx="50" cy="65" rx="12" ry="9" fill="#FFE7B0"/>${E(41,50,4.5)}${E(59,50,4.5)}
+    <path d="M45 59h10l-5 5z" fill="#8C4A22"/><path d="M50 63q-4 5-8 2M50 63q4 5 8 2" stroke="#2A2440" stroke-width="2.2" fill="none" stroke-linecap="round"/>${BL(36,64,60)}`,
+  elephant: `${GS}<ellipse cx="20" cy="46" rx="18" ry="22" fill="#9FB3C8"/><ellipse cx="80" cy="46" rx="18" ry="22" fill="#9FB3C8"/><ellipse cx="22" cy="47" rx="11" ry="15" fill="#F6B8C8"/><ellipse cx="78" cy="47" rx="11" ry="15" fill="#F6B8C8"/>
+    <ellipse cx="50" cy="45" rx="25" ry="26" fill="#B4C6D8"/><path d="M43 56C41 76 46 90 59 87C66 86 66 79 59 79C53 79 54 70 57 56Z" fill="#B4C6D8"/>
+    <path d="M45 66h9M46 73h8" stroke="#93A8BE" stroke-width="2" stroke-linecap="round"/>${E(40,43,4.5)}${E(60,43,4.5)}${BL(36,64,53)}`,
+  camel: `${GS}${[26,34,52,60].map(x => `<rect x="${x}" y="64" width="6" height="26" rx="3" fill="#C98B45"/>`).join('')}
+    <path d="M18 58q-6 6-4 14" stroke="#C98B45" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="44" cy="60" rx="26" ry="14" fill="#E7B36C"/><path d="M24 57Q42 18 60 57Z" fill="#E7B36C"/>
+    <path d="M31 45Q42 31 53 45L51 52Q42 43 33 52Z" fill="#FF6B6B"/><g fill="#FFD43B"><circle cx="34" cy="53" r="2"/><circle cx="42" cy="49" r="2"/><circle cx="50" cy="53" r="2"/></g>
+    <path d="M64 59C72 51 72 39 70 31L79 29C82 41 80 55 72 65Z" fill="#E7B36C"/>
+    <ellipse cx="79" cy="27" rx="11" ry="8" fill="#E7B36C"/><ellipse cx="87" cy="30" rx="5.5" ry="5" fill="#F3D3A0"/><ellipse cx="73" cy="20" rx="3" ry="5" fill="#C98B45"/>
+    ${E(80,24,2.8)}<path d="M84 34q3 2 6 0" stroke="#8C5A2B" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  horse: `${GS}<path d="M33 26L37 6L46 22Z" fill="#9C5B32"/><path d="M67 26L63 6L54 22Z" fill="#9C5B32"/>
+    <rect x="29" y="16" width="42" height="68" rx="21" fill="#B8703F"/><path d="M40 14Q50 2 60 14Q57 26 50 21Q43 27 40 14Z" fill="#4A2C17"/>
+    <path d="M47 28h6l-1 26h-4z" fill="#fff" opacity=".9"/><ellipse cx="50" cy="73" rx="19" ry="13" fill="#E3B48A"/>
+    <ellipse cx="43" cy="72" rx="2.6" ry="3.6" fill="#7A4A2A"/><ellipse cx="57" cy="72" rx="2.6" ry="3.6" fill="#7A4A2A"/>${E(39,40,4.5)}${E(61,40,4.5)}${SM(50,79,5)}${BL(34,66,50)}`,
+  cow: `${GS}<path d="M30 24q-9-8-5-17q7 6 11 13z" fill="#F3E6C9"/><path d="M70 24q9-8 5-17q-7 6-11 13z" fill="#F3E6C9"/>
+    <ellipse cx="19" cy="38" rx="12" ry="6" fill="#F2F2F2" transform="rotate(-20 19 38)"/><ellipse cx="81" cy="38" rx="12" ry="6" fill="#F2F2F2" transform="rotate(20 81 38)"/>
+    <ellipse cx="20" cy="38" rx="6" ry="3" fill="#FFB3C1" transform="rotate(-20 20 38)"/><ellipse cx="80" cy="38" rx="6" ry="3" fill="#FFB3C1" transform="rotate(20 80 38)"/>
+    <rect x="25" y="18" width="50" height="62" rx="25" fill="#FDFDFD"/><path d="M28 30q10-8 15 5q-4 11-15 6z" fill="#3A3340"/><path d="M72 26q-8 0-10 10q8 6 12 0z" fill="#3A3340"/>
+    <ellipse cx="50" cy="71" rx="22" ry="14" fill="#FFB3C1"/><ellipse cx="42" cy="70" rx="3" ry="4" fill="#D97A8E"/><ellipse cx="58" cy="70" rx="3" ry="4" fill="#D97A8E"/>
+    ${E(40,47,4.5)}${E(60,47,4.5)}${SM(50,77,6)}`,
+  sheep: `${GS}${[30,38,56,64].map(x => `<rect x="${x}" y="64" width="6" height="24" rx="3" fill="#5B5466"/>`).join('')}
+    <g fill="#FBFBFD">${[[28,54,14],[42,44,15],[58,44,15],[70,56,13],[36,64,14],[56,65,14],[48,55,17]].map(([x,y,r]) => `<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')}</g>
+    <ellipse cx="72" cy="40" rx="6" ry="3" fill="#5B5466" transform="rotate(-25 72 40)"/><ellipse cx="80" cy="47" rx="11" ry="13" fill="#5B5466"/>
+    <g fill="#FBFBFD"><circle cx="76" cy="34" r="5"/><circle cx="83" cy="33" r="5"/></g>
+    <circle cx="76" cy="46" r="3.6" fill="#fff"/><circle cx="76.6" cy="46.5" r="2" fill="#2A2440"/><circle cx="85" cy="46" r="3.6" fill="#fff"/><circle cx="85.6" cy="46.5" r="2" fill="#2A2440"/>
+    <path d="M78 54q2.5 2 5 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  chicken: `${GS}<path d="M42 82v8M54 82v8M38 90h8M50 90h8" stroke="#FFA62B" stroke-width="3" stroke-linecap="round"/>
+    <path d="M20 52q-9-15 5-17q-2 9 6 10z" fill="#EADCC5"/><ellipse cx="48" cy="60" rx="28" ry="25" fill="#FFFDF6" stroke="#EADCC5" stroke-width="2.5"/>
+    <path d="M45 33q2-11 8-4q4-9 9 0q6-2 2 9z" fill="#FF5A5A"/><path d="M33 60q12-9 22 3q-10 12-22-3z" fill="#F1E3CC"/>
+    <path d="M70 46l11 4-11 4z" fill="#FFA62B"/><ellipse cx="70" cy="57" rx="3" ry="5" fill="#FF5A5A"/>${E(61,44,3.6)}<ellipse cx="57" cy="52" rx="4" ry="2.6" fill="#FF8FA3" opacity=".6"/>`,
+  duck: `<path d="M8 82q10-5 20 0t20 0t20 0t20 0" stroke="#4CB8F2" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M17 62l-7-9 11 2z" fill="#FFD43B"/><ellipse cx="46" cy="65" rx="29" ry="18" fill="#FFD43B"/><circle cx="62" cy="40" r="16" fill="#FFD43B"/>
+    <path d="M74 40q13 0 13 6q-7 4-13 1z" fill="#FF9F43"/><path d="M29 61q14-10 26 2q-12 12-26-2z" fill="#FFC20E"/>
+    <path d="M58 25q4-6 8-2" stroke="#FFC20E" stroke-width="3" fill="none" stroke-linecap="round"/>${E(64,36,3.6)}<ellipse cx="58" cy="46" rx="4" ry="2.6" fill="#FF8FA3" opacity=".6"/>`,
+  fish: `<g fill="none" stroke="#9EDCFF" stroke-width="2.5"><circle cx="14" cy="26" r="4"/><circle cx="22" cy="14" r="3"/><circle cx="10" cy="12" r="2"/></g>
+    <path d="M72 50L92 32L89 68Z" fill="#2E8FD0"/><path d="M38 31q11-13 22-1z" fill="#2E8FD0"/><ellipse cx="46" cy="50" rx="30" ry="20" fill="#4CB8F2"/>
+    <path d="M50 32q6 18 0 36M60 34q5 16 0 32" stroke="#9EDCFF" stroke-width="5" fill="none"/>
+    <path d="M44 58q8 8 14-2" fill="#2E8FD0"/>${E(30,46,5)}${SM(26,57,4)}<ellipse cx="34" cy="55" rx="3.5" ry="2.2" fill="#FF8FA3" opacity=".6"/>`,
+  rabbit: `${GS}<ellipse cx="38" cy="22" rx="8" ry="20" fill="#E9E4F0"/><ellipse cx="62" cy="22" rx="8" ry="20" fill="#E9E4F0"/>
+    <ellipse cx="38" cy="24" rx="4" ry="14" fill="#FFB8C6"/><ellipse cx="62" cy="24" rx="4" ry="14" fill="#FFB8C6"/>
+    <ellipse cx="50" cy="60" rx="29" ry="26" fill="#E9E4F0"/><ellipse cx="50" cy="69" rx="14" ry="10" fill="#FAF8FC"/>
+    ${E(39,55,4.6)}${E(61,55,4.6)}<ellipse cx="50" cy="64" rx="4" ry="3" fill="#FF8FA3"/>
+    <rect x="46.5" y="70" width="7" height="7" rx="1.5" fill="#fff" stroke="#CFC7DA"/><path d="M50 67q-4 4-8 2M50 67q4 4 8 2" stroke="#2A2440" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M32 66h-12M68 66h12" stroke="#BDB3CC" stroke-width="2" stroke-linecap="round"/>${BL(32,68,62)}`,
+  monkey: `${GS}<circle cx="22" cy="50" r="11" fill="#8A5A3B"/><circle cx="78" cy="50" r="11" fill="#8A5A3B"/><circle cx="22" cy="50" r="6" fill="#F4C9A0"/><circle cx="78" cy="50" r="6" fill="#F4C9A0"/>
+    <circle cx="50" cy="50" r="29" fill="#8A5A3B"/><path d="M46 22q4-9 8 0" stroke="#8A5A3B" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M50 40C38 28 25 40 33 53C25 64 36 79 50 79C64 79 75 64 67 53C75 40 62 28 50 40Z" fill="#F4C9A0"/>
+    ${E(42,50,4.4)}${E(58,50,4.4)}<circle cx="47" cy="61" r="1.6" fill="#7A4A2A"/><circle cx="53" cy="61" r="1.6" fill="#7A4A2A"/>${SM(50,67,8)}${BL(36,64,62)}`,
+  giraffe: `<rect x="40" y="58" width="20" height="40" fill="#F7C548"/><g fill="#D98C2B"><circle cx="46" cy="72" r="4"/><circle cx="55" cy="86" r="4.5"/><circle cx="44" cy="92" r="3"/></g>
+    <rect x="37" y="10" width="4" height="16" fill="#C98B45"/><rect x="59" y="10" width="4" height="16" fill="#C98B45"/><circle cx="39" cy="10" r="4.5" fill="#8C5A2B"/><circle cx="61" cy="10" r="4.5" fill="#8C5A2B"/>
+    <ellipse cx="26" cy="32" rx="9" ry="4.5" fill="#F7C548" transform="rotate(-20 26 32)"/><ellipse cx="74" cy="32" rx="9" ry="4.5" fill="#F7C548" transform="rotate(20 74 32)"/>
+    <ellipse cx="50" cy="42" rx="21" ry="22" fill="#F7C548"/><g fill="#D98C2B"><circle cx="37" cy="31" r="4"/><circle cx="63" cy="29" r="3.2"/><circle cx="50" cy="25" r="3"/></g>
+    <ellipse cx="50" cy="57" rx="15" ry="10" fill="#F3B07A"/><circle cx="45" cy="56" r="1.8" fill="#8C5A2B"/><circle cx="55" cy="56" r="1.8" fill="#8C5A2B"/>
+    ${E(42,41,4)}${E(58,41,4)}${SM(50,61,5)}${BL(34,66,49)}`,
+  turtle: `${GS}${[[28,74],[66,74],[22,64],[72,64]].map(([x,y]) => `<ellipse cx="${x}" cy="${y}" rx="7" ry="8" fill="#7CCB52"/>`).join('')}
+    <circle cx="82" cy="56" r="12" fill="#7CCB52"/>${E(85,53,3.2)}${SM(84,61,3.5)}
+    <path d="M16 70Q18 28 50 28Q82 28 84 70Z" fill="#4E9A52"/><path d="M38 44l12-7 12 7v13l-12 7-12-7z" fill="#6CC04A"/>
+    <path d="M22 62q4-12 14-16l2 13zM78 62q-4-12-14-16l-2 13z" fill="#6CC04A"/><rect x="14" y="66" width="72" height="8" rx="4" fill="#3E8A42"/>`,
+
+  mama: person({shirt:'#FF7BAC',
+    back:`<path d="M22 54Q20 18 50 18Q80 18 78 54L80 88Q70 94 66 82L66 48L34 48L34 82Q30 94 20 88Z" fill="#3B2418"/>`,
+    hair:`<path d="M26 50Q28 22 50 22Q72 22 74 50Q62 32 46 37Q36 41 26 50Z" fill="#4A2E1F"/>`,
+    extra:`<circle cx="26" cy="62" r="2.4" fill="#FFD43B"/><circle cx="74" cy="62" r="2.4" fill="#FFD43B"/>`,
+    mouth:`<path d="M44 65Q50 71 56 65" stroke="#C2405A" stroke-width="3" fill="none" stroke-linecap="round"/>`}),
+  baba: person({shirt:'#F4F6FA',
+    hair:`<path d="M26 46Q26 20 50 20Q74 20 74 46Q70 32 50 31Q32 31 26 46Z" fill="#2A1A12"/>`,
+    extra:`<path d="M28 56Q30 82 50 82Q70 82 72 56Q68 68 60 68Q50 72 40 68Q32 68 28 56Z" fill="#2A1A12"/><path d="M42 62q8-4 16 0" stroke="#2A1A12" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M44 67q6 4 12 0" stroke="#C2405A" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M42 80l8 8 8-8" stroke="#D9DEE8" stroke-width="3" fill="none"/>`, mouth:' '}),
+  brother: person({shirt:'#4CB8F2',
+    hair:`<path d="M26 48Q24 18 50 18Q76 18 74 48L68 36L62 42L56 31L50 40L44 31L38 42L32 36Z" fill="#3B2418"/>`}),
+  sister: person({shirt:'#FFD43B',
+    back:`<circle cx="22" cy="44" r="10" fill="#3B2418"/><circle cx="78" cy="44" r="10" fill="#3B2418"/>`,
+    hair:`<path d="M26 50Q26 20 50 20Q74 20 74 50Q66 33 50 35Q34 33 26 50Z" fill="#4A2E1F"/>`,
+    extra:`<path d="M22 34l-8-5v10zM22 34l8-5v10z" fill="#FF7BAC"/><path d="M78 34l-8-5v10zM78 34l8-5v10z" fill="#FF7BAC"/><circle cx="22" cy="34" r="2.5" fill="#E0527F"/><circle cx="78" cy="34" r="2.5" fill="#E0527F"/>`}),
+  grandma: person({shirt:'#9B6BFF',
+    back:`<circle cx="50" cy="20" r="11" fill="#C9C4CF"/>`,
+    hair:`<path d="M25 52Q24 24 50 24Q76 24 75 52Q70 35 50 35Q30 35 25 52Z" fill="#D8D3DE"/>`,
+    extra:GLASSES + `<circle cx="50" cy="88" r="3" fill="#FFD43B"/>`}),
+  grandpa: person({shirt:'#8FA3B8',
+    hair:`<path d="M26 54Q23 36 33 29L35 46ZM74 54Q77 36 67 29L65 46Z" fill="#D8D3DE"/>`,
+    extra:GLASSES + `<path d="M30 58Q32 84 50 84Q68 84 70 58Q62 70 50 70Q38 70 30 58Z" fill="#ECE8F1"/><path d="M41 63q9-5 18 0" stroke="#ECE8F1" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M45 67q5 3 10 0" stroke="#C2405A" stroke-width="2.4" fill="none" stroke-linecap="round"/>`, mouth:' '}),
+
+  eyes: kid(`<rect x="30" y="43" width="40" height="18" rx="9"/>`, {eyes:1}),
+  nose: kid(`<circle cx="50" cy="60" r="8.5"/>`, {nose:1}),
+  mouth: kid(`<ellipse cx="50" cy="69" rx="12" ry="8"/>`, {mouth:1}),
+  ears: kid(`<circle cx="25" cy="54" r="11"/><circle cx="75" cy="54" r="11"/>`, {ears:1}),
+  head: kid(`<circle cx="50" cy="48" r="38"/>`),
+  hair: kid(`<path d="M20 50Q18 10 50 10Q82 10 80 50Q74 28 50 28Q26 28 20 50Z"/>`, {hair:1}),
+  hands: `${hand(31, 52, false)}${hand(69, 52, true)}`,
+  fingers: `${hand(50, 50, false, 1.45, ['#FF6B6B','#FFD43B','#3EC46D','#4CB8F2','#9B6BFF'])}<g fill="#FFD43B"><path d="M14 22l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M84 18l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z"/></g>`,
+  feet: `${foot(34, true)}${foot(66, false)}`,
+
+  /* colour objects */
+  red: `<path d="M50 30C30 18 14 34 18 54C22 76 38 88 50 82C62 88 78 76 82 54C86 34 70 18 50 30Z" fill="#E2433A"/><path d="M50 30q2-10 6-14" stroke="#7A4A1F" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M54 22q14-8 20 2q-12 6-20-2z" fill="#3FA34D"/><ellipse cx="33" cy="45" rx="5" ry="9" fill="#fff" opacity=".45"/>`,
+  blue: `<path d="M40 26q-4-10-10-12M40 26q0-12 0-16M40 26q4-10 10-12" stroke="#4CB8F2" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M80 54l14-14-2 14 6 8z" fill="#2F6FD6"/><path d="M12 58Q12 30 46 30Q78 30 82 54Q84 72 62 74L30 74Q12 72 12 58Z" fill="#2F6FD6"/><path d="M20 64Q40 77 72 66Q66 74 50 74L30 74Q20 72 20 64Z" fill="#9FC8FF"/>${E(30,50,4)}${SM(30,60,4)}`,
+  yellow: `<path d="M20 28Q22 76 70 78Q84 78 87 69Q50 70 35 28Z" fill="#F7CB2D"/><path d="M20 28l-3-9 9 3z" fill="#7A4A1F"/><path d="M27 34Q33 67 73 73" stroke="#E0A800" stroke-width="2.5" fill="none"/><path d="M86 69l6 2-4 3z" fill="#7A4A1F"/>`,
+  green: `<ellipse cx="50" cy="64" rx="34" ry="24" fill="#3FA34D"/><circle cx="33" cy="40" r="13" fill="#3FA34D"/><circle cx="67" cy="40" r="13" fill="#3FA34D"/><circle cx="33" cy="40" r="8" fill="#fff"/><circle cx="67" cy="40" r="8" fill="#fff"/>${E(34,41,4)}${E(68,41,4)}<ellipse cx="50" cy="72" rx="20" ry="11" fill="#8FD18E"/><path d="M32 62Q50 76 68 62" stroke="#1F5E2A" stroke-width="3" fill="none" stroke-linecap="round"/>${BL(26,74,58)}`,
+  orange: `<circle cx="50" cy="56" r="31" fill="#F28A1E"/><g fill="#E07610">${[[38,44],[60,50],[44,66],[64,70],[30,60]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="1.6"/>`).join('')}</g><path d="M50 26q10-13 23-6q-9 11-23 6z" fill="#3FA34D"/><path d="M50 26v-6" stroke="#7A4A1F" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="36" cy="44" rx="5" ry="8" fill="#fff" opacity=".4"/>`,
+  pink: `<path d="M50 60v34" stroke="#3FA34D" stroke-width="5" stroke-linecap="round"/><path d="M50 80q-16-2-20-14q14 0 20 14z" fill="#3FA34D"/>${[0,72,144,216,288].map(a => `<circle cx="${50 + Math.cos((a-90)*Math.PI/180)*17}" cy="${42 + Math.sin((a-90)*Math.PI/180)*17}" r="14" fill="#F39AC0"/>`).join('')}<circle cx="50" cy="42" r="11" fill="#FFD43B"/>${E(46,41,1.8)}${E(54,41,1.8)}${SM(50,46,3)}`,
+  purple: `<path d="M50 22v-8" stroke="#7A4A1F" stroke-width="4" stroke-linecap="round"/><path d="M52 20q14-10 22 0q-12 6-22 0z" fill="#3FA34D"/>${[[38,32],[50,30],[62,32],[32,46],[44,44],[56,44],[68,46],[38,58],[50,58],[62,58],[44,71],[56,71],[50,83]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="8.5" fill="#8A4FC2"/><circle cx="${x-2.5}" cy="${y-2.5}" r="2.4" fill="#C9A3F0"/>`).join('')}`,
+  black: catArt('#2E2A33', '#2E2A33', '#4A4452', '#4A4452', '#C8E04A'),
+  white: `<g fill="#fff" stroke="#BFD9F0" stroke-width="3"><path d="M22 70Q8 70 10 56Q12 44 26 46Q26 26 46 26Q62 26 66 40Q80 36 86 48Q94 60 82 70Z"/></g>${E(40,56,3.6)}${E(60,56,3.6)}${SM(50,62,5)}${BL(32,68,61)}`,
+
+  /* ui */
+  rainbow: `<g fill="none" stroke-width="9" stroke-linecap="round">${['#FF6B6B','#FFD43B','#3EC46D','#4CB8F2','#9B6BFF'].map((c, i) => `<path d="M${12+i*8} 74A${38-i*8} ${38-i*8} 0 0 1 ${88-i*8} 74" stroke="${c}"/>`).join('')}</g><g fill="#fff"><circle cx="14" cy="76" r="9"/><circle cx="24" cy="78" r="7"/><circle cx="86" cy="76" r="9"/><circle cx="76" cy="78" r="7"/></g>`,
+  palette: `<path d="M50 14C24 14 10 34 12 54C14 74 32 88 50 86C60 85 60 76 54 72C48 68 52 60 60 62C74 66 90 60 88 42C86 26 70 14 50 14Z" fill="#F3D3A0"/>${[['#E2433A',34,32],['#F7CB2D',54,26],['#3FA34D',72,36],['#2F6FD6',28,52],['#8A4FC2',38,70]].map(([c,x,y]) => `<circle cx="${x}" cy="${y}" r="7.5" fill="${c}"/>`).join('')}`,
+  find: `<circle cx="42" cy="42" r="24" fill="#BDEBFF" stroke="#fff" stroke-width="9"/><circle cx="34" cy="34" r="6" fill="#fff" opacity=".8"/><path d="M60 60l22 22" stroke="#fff" stroke-width="15" stroke-linecap="round"/><path d="M60 60l22 22" stroke="#7A4A1F" stroke-width="8" stroke-linecap="round"/>`,
+  match: `<path d="M14 30h20a8 8 0 1 1 16 0h20v20a8 8 0 1 0 0 16v20H50a8 8 0 1 0-16 0H14z" fill="#FFD43B" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>${E(36,52,4)}${E(54,52,4)}${SM(45,62,6)}`,
+};
+const art = (id, cls='') => ART[id] ? `<svg class="art-svg ${cls}" viewBox="0 0 100 100" aria-hidden="true">${ART[id]}</svg>` : '';
+
 
 /* letter families, following the colour strip on the Wendy's Friends cover: [letters, background, text] */
 const FAM = [['اأإآءٱ','#E5A823','#3A2A00'],['بتث','#1F3A8A','#FFFFFF'],['جحخ','#E8792B','#FFFFFF'],['دذ','#1E6B3A','#FFFFFF'],
@@ -664,8 +851,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 /* ---------- rendering helpers ---------- */
 function picHTML(item, idx=0){
-  if (item.color) return `<span class="swatch" style="--c:${item.color}"><span class="mini">${item.pic}</span></span>`;
-  return `<span class="pic" style="--halo:${HALOS[idx % HALOS.length]}">${item.pic}</span>`;
+  if (item.color) return `<span class="swatch" style="--c:${item.color}"><span class="mini">${art(item.id) || item.pic}</span></span>`;
+  return `<span class="pic" style="--halo:${HALOS[idx % HALOS.length]}">${art(item.id) || item.pic}</span>`;
 }
 function chipHTML(text, size){ const f = famOf(text); return `<span class="chip" style="--fc:${f.bg};--ft:${f.fg};--fs:${size}">${esc(text)}</span>`; }
 
@@ -685,6 +872,7 @@ function mascotSVG(){
   <path d="M60 89q10 8 20 0" stroke="#8C5A2B" stroke-width="3" fill="none" stroke-linecap="round"/>`;
 }
 document.querySelectorAll('[data-mascot]').forEach(s => s.innerHTML = mascotSVG());
+document.querySelectorAll('svg[data-art]').forEach(s => s.innerHTML = ART[s.dataset.art]);
 
 function renderStars(){ $('#star-count').textContent = AR(S.prog.stars); }
 const CONF = ['#FF6B6B','#FFD43B','#3EC46D','#4CB8F2','#9B6BFF','#FF7BAC','#FF9F43'];
@@ -775,8 +963,7 @@ document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e =
 function renderHome(){
   $('#section-cards').innerHTML = SECTIONS.map((s, i) => `
     <button class="card" data-sec="${s.id}" style="--tint:${s.tint};--mid:${s.mid};--edge:${s.edge};--edge-ink:${s.ink};--i:${i}">
-      <span class="art">${s.art ? `<small>${s.art[1]}</small>${s.art[0]}<small>${s.art[2]}</small>` :
-        `<span class="dots">${['#E2433A','#F7CB2D','#2F6FD6','#3FA34D'].map(c => `<i style="--c:${c}"></i>`).join('')}</span>`}</span>
+      <span class="art">${art(s.art[1], 'side')}${art(s.art[0], 'main')}${art(s.art[2], 'side')}</span>
       <span class="ttl">${s.title}</span></button>`).join('');
 }
 document.querySelector('.hello .mascot').addEventListener('click', () => { hop('.hello .mascot'); sfx('whoosh'); });
@@ -817,8 +1004,8 @@ let pendingGame = null, lastCat = 'all';
 document.querySelectorAll('[data-game]').forEach(b => b.addEventListener('click', () => {
   pendingGame = b.dataset.game;
   $('#pick-title').textContent = pendingGame === 'find' ? 'أين الصورة؟' : 'طابِق';
-  $('#pick-grid').innerHTML = [{id:'all', title:'الكل', art:['🌈'], tint:'#9FE3FF', mid:'#4CB8F2', edge:'#1E85C7'}, ...SECTIONS].map((s, i) =>
-    `<button class="pick" data-cat="${s.id}" style="--tint:${s.tint};--mid:${s.mid};--edge:${s.edge};--i:${i}"><span>${s.art ? s.art[0] : '🎨'}</span>${s.title}</button>`).join('');
+  $('#pick-grid').innerHTML = [{id:'all', title:'الكل', art:['rainbow'], tint:'#9FE3FF', mid:'#4CB8F2', edge:'#1E85C7'}, ...SECTIONS].map((s, i) =>
+    `<button class="pick" data-cat="${s.id}" style="--tint:${s.tint};--mid:${s.mid};--edge:${s.edge};--i:${i}"><span>${art(s.art[0])}</span>${s.title}</button>`).join('');
   $('#m-pick').hidden = false;
 }));
 $('#pick-grid').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; lastCat = b.dataset.cat; startGame(pendingGame, lastCat); });
