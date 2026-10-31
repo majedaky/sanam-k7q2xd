@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="عالم سنام">
+<meta name="theme-color" content="#FFF6E3">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;height:100%}</style>
+</head>
+<body>
+<title>عالم سنام</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* Layout: one-screen toddler app. Chunky "toy block" cards on a warm cream paper,
+   palette taken from the Wendy's Friends cover; Arabic words wear their letter-family colour. */
+:root{
+  --cream:#FFF6E3; --paper:#FFFDF7; --line:#EBDDC2;
+  --sun:#F6C445; --navy:#1F3A8A; --brick:#C8412F; --teal:#3E9FB2; --orange:#EE8A3C; --plum:#6B3FA0; --leaf:#4E9A52;
+  --ink:#2A2440; --muted:#77697F; --ok:#3E9B5A; --shadow:rgba(80,50,10,.16);
+  --f-kid:"Baloo Bhaijaan 2","Geeza Pro","Arial Rounded MT Bold",Tahoma,sans-serif;
+  --f-ui:"Tajawal","Geeza Pro",Tahoma,sans-serif;
+  color-scheme: light;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:var(--f-kid);margin:0;overflow:hidden;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;
+  background-image:radial-gradient(circle at 8% 12%,#FFE9B8 0 120px,transparent 121px),radial-gradient(circle at 96% 88%,#DDF0F2 0 160px,transparent 161px),radial-gradient(circle at 90% 6%,#F7E1EA 0 70px,transparent 71px)}
+#app{height:100%;display:flex;flex-direction:column}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--navy);outline-offset:3px}
+.screen{flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 20px 20px;gap:14px;overflow:auto}
+.screen[hidden]{display:none!important}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:12px;min-height:64px}
+.bar h1{font-size:clamp(28px,4.4vw,44px);margin:0;font-weight:800;line-height:1.1;flex:1;text-wrap:balance}
+.round{width:64px;height:64px;border-radius:50%;background:var(--paper);display:grid;place-items:center;
+  box-shadow:0 5px 0 var(--line),0 8px 18px var(--shadow);flex:none}
+.round:active{transform:translateY(4px);box-shadow:0 1px 0 var(--line)}
+.round svg{width:32px;height:32px}
+.stars{display:flex;align-items:center;gap:6px;background:var(--paper);padding:8px 16px;border-radius:40px;font-size:26px;font-weight:800;box-shadow:0 4px 0 var(--line)}
+.parent-btn{font-family:var(--f-ui);font-size:14px;color:var(--muted);background:var(--paper);padding:10px 14px;border-radius:30px;box-shadow:0 3px 0 var(--line);display:flex;gap:6px;align-items:center}
+
+/* home */
+.hello{display:flex;align-items:center;gap:16px}
+.hello .mascot{width:clamp(90px,14vw,130px);flex:none;animation:bob 4s ease-in-out infinite}
+.bubble{background:var(--paper);border-radius:28px;padding:14px 22px;font-size:clamp(24px,3.6vw,34px);font-weight:700;position:relative;box-shadow:0 4px 0 var(--line)}
+.bubble::before{content:"";position:absolute;right:-12px;top:50%;margin-top:-10px;border:10px solid transparent;border-left-color:var(--paper)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.sections{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{position:relative;border-radius:34px;padding:18px 18px 22px;background:var(--tint);box-shadow:0 9px 0 var(--edge),0 14px 24px var(--shadow);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:clamp(150px,22vh,230px);transition:transform .12s}
+.card:active{transform:translateY(7px);box-shadow:0 2px 0 var(--edge)}
+.card .art{font-size:clamp(56px,8vw,84px);line-height:1;display:flex;align-items:flex-end;gap:4px}
+.card .art small{font-size:.55em;opacity:.95}
+.card .ttl{font-size:clamp(28px,4vw,42px);font-weight:800;color:var(--edge-ink)}
+.dots{display:flex;gap:8px}.dots i{width:clamp(30px,4.4vw,44px);aspect-ratio:1;border-radius:50%;background:var(--c);box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)}
+.games{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.game-card{border-radius:30px;padding:16px;background:var(--paper);box-shadow:0 8px 0 var(--edge),0 12px 20px var(--shadow);display:flex;align-items:center;gap:14px;justify-content:center}
+.game-card:active{transform:translateY(6px);box-shadow:0 2px 0 var(--edge)}
+.game-card .gi{font-size:clamp(40px,6vw,58px)}
+.game-card .gt{font-size:clamp(24px,3.4vw,34px);font-weight:800}
+
+/* item grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(130px,17vw,170px),1fr));gap:16px;padding-bottom:12px}
+.tile{background:var(--paper);border-radius:28px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 7px 0 var(--line),0 10px 18px var(--shadow)}
+.tile:active{transform:translateY(5px);box-shadow:0 2px 0 var(--line)}
+.pic{display:grid;place-items:center;width:var(--s,96px);height:var(--s,96px);border-radius:50%;background:var(--halo,#FFF1D6);font-size:calc(var(--s,96px) * .62);line-height:1}
+.swatch{position:relative;display:block;width:var(--s,96px);height:var(--s,96px);border-radius:46% 54% 50% 50% / 52% 46% 54% 48%;background:var(--c);box-shadow:inset 0 -8px 0 rgba(0,0,0,.12),0 0 0 3px rgba(0,0,0,.06)}
+.swatch .mini{position:absolute;left:-6%;bottom:-6%;font-size:calc(var(--s,96px)*.36);background:var(--paper);border-radius:50%;width:46%;height:46%;display:grid;place-items:center;box-shadow:0 2px 6px var(--shadow)}
+
+/* word chip: letter-family colour, like the book's alphabet strip */
+.chip{display:inline-block;background:var(--fc);color:var(--ft);border-radius:16px;padding:2px 16px 6px;font-weight:800;font-size:var(--fs,28px);line-height:1.5;box-shadow:inset 0 -4px 0 rgba(0,0,0,.14)}
+.tag{font-family:var(--f-ui);font-size:13px;font-weight:700;color:var(--muted);background:#F2E8D6;border-radius:20px;padding:2px 10px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(42,36,64,.38);display:grid;place-items:center;padding:16px;z-index:20}
+.modal[hidden]{display:none!important}
+.sheet{background:var(--paper);border-radius:40px;width:min(720px,100%);max-height:100%;overflow:auto;padding:22px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;gap:14px;animation:pop .28s ease-out}
+@keyframes pop{from{transform:scale(.9);opacity:.4}to{transform:scale(1);opacity:1}}
+.sheet .close{position:absolute;top:14px;left:14px}
+.detail-row{display:flex;align-items:center;gap:12px;width:100%;justify-content:space-between}
+.big{--s:clamp(170px,30vw,260px)}
+.big-btn{border-radius:50%}
+.big-btn.boing{animation:boing .5s}
+@keyframes boing{30%{transform:scale(1.12) rotate(-4deg)}60%{transform:scale(.96) rotate(3deg)}}
+.words{display:flex;flex-direction:column;align-items:center;gap:8px}
+.wline{display:flex;align-items:center;gap:10px}
+.phrase{background:#FFF1D6;border-radius:24px;padding:10px 20px;font-size:clamp(22px,3.2vw,30px);font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:0 4px 0 var(--line)}
+.phrase small{display:block;font-size:.7em;color:var(--muted)}
+.speak-ic{width:30px;height:30px;flex:none}
+
+/* games */
+.prompt{display:flex;align-items:center;justify-content:center;gap:14px;min-height:80px}
+.prompt .hand{font-size:48px}
+.choices{flex:1;display:grid;gap:20px;align-content:center;justify-content:center;grid-template-columns:repeat(var(--n),minmax(0,clamp(150px,24vw,260px)))}
+.choice{background:var(--paper);border-radius:36px;aspect-ratio:1;display:grid;place-items:center;box-shadow:0 9px 0 var(--line),0 14px 24px var(--shadow);--s:72%}
+.choice .pic,.choice .swatch{width:72%;height:72%;font-size:clamp(70px,11vw,130px)}
+.choice.right{box-shadow:0 9px 0 var(--ok),0 0 0 6px var(--ok);animation:boing .6s}
+.choice.nope{animation:wob .45s;opacity:.55}
+@keyframes wob{20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.dotsbar{display:flex;gap:8px;justify-content:center}.dotsbar i{width:18px;height:18px;border-radius:50%;background:#EADBC0}.dotsbar i.on{background:var(--sun);box-shadow:0 0 0 3px #F3DA92}
+.mrow{display:flex;justify-content:center;gap:clamp(12px,2.4vw,24px);flex-wrap:wrap}
+.mcard{background:var(--paper);border-radius:30px;width:clamp(120px,19vw,190px);aspect-ratio:1;display:grid;place-items:center;box-shadow:0 8px 0 var(--line),0 12px 20px var(--shadow);--s:70%}
+.mcard .pic,.mcard .swatch{width:70%;height:70%;font-size:clamp(56px,8.5vw,96px)}
+.mcard.sel{box-shadow:0 8px 0 var(--sun),0 0 0 6px var(--sun);transform:translateY(-4px)}
+.mcard.done{opacity:.6;box-shadow:0 4px 0 var(--ok),0 0 0 4px var(--ok);pointer-events:none}
+.mcard.nope{animation:wob .45s}
+.mid{display:flex;justify-content:center;font-size:40px;color:var(--muted)}
+.seg{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.seg button{background:var(--paper);border-radius:24px;padding:10px 20px;font-size:24px;font-weight:700;box-shadow:0 5px 0 var(--line);display:flex;gap:8px;align-items:center}
+.seg button[aria-pressed="true"]{background:var(--sun);box-shadow:0 5px 0 #C99A1F}
+
+/* picker / celebrate */
+.pick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;width:100%}
+.pick{border-radius:28px;padding:14px;background:var(--tint);box-shadow:0 7px 0 var(--edge);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:26px;font-weight:800}
+.pick span{font-size:48px;line-height:1.1}
+.pick:active{transform:translateY(5px);box-shadow:0 2px 0 var(--edge)}
+.cele h2{font-size:clamp(44px,7vw,68px);margin:0;color:var(--brick)}
+.cele .mascot{width:160px}
+.cele .earned{font-size:34px;font-weight:800}
+.row-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.pill{background:var(--sun);border-radius:30px;padding:12px 26px;font-size:26px;font-weight:800;box-shadow:0 6px 0 #C99A1F;display:flex;align-items:center;gap:8px}
+.pill.alt{background:#D7EFF3;box-shadow:0 6px 0 var(--teal)}
+.pill:active{transform:translateY(5px);box-shadow:0 1px 0 #C99A1F}
+.float{position:fixed;font-size:40px;pointer-events:none;z-index:40;animation:rise 1.6s ease-out forwards}
+@keyframes rise{from{transform:translateY(0) scale(.6);opacity:1}to{transform:translateY(-260px) scale(1.1);opacity:0}}
+
+/* parent area (calmer, adult UI) */
+.gate h2,.parent h1{font-family:var(--f-ui)}
+.gate{font-family:var(--f-ui)}
+.gate h2{font-size:22px;margin:0}
+.gate .q{font-family:var(--f-kid);font-size:52px;font-weight:800;direction:rtl}
+.gate .opts{display:flex;gap:12px}
+.gate .opts button{width:72px;height:72px;border-radius:20px;background:#F2E8D6;font-family:var(--f-kid);font-size:36px;font-weight:800}
+.parent{font-family:var(--f-ui);background:var(--paper)}
+.parent h1{font-size:26px}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);flex-wrap:wrap}
+.tabs button{padding:10px 16px;font-size:17px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
+.ppanel{display:flex;flex-direction:column;gap:14px;-webkit-user-select:text;user-select:text}
+.ppanel[hidden]{display:none!important}
+.note{background:#FFF3D1;border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.7;color:#5a4a1e}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{padding:8px 14px;border-radius:20px;background:#F2E8D6;font-size:15px;font-weight:700}
+.filters button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.vrow{border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:start;background:#fff}
+.vrow .vpic{--s:64px}
+.vcol{display:flex;flex-direction:column;gap:8px;min-width:0}
+.vcol h3{margin:0;font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.vcol label{font-size:12px;color:var(--muted)}
+.vcol input{font-family:var(--f-kid);font-size:20px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;width:100%;box-sizing:border-box;background:var(--paper);color:var(--ink);direction:rtl}
+.aslot{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px}
+.aslot button{background:#F2E8D6;border-radius:10px;padding:6px 10px;font-size:13px;font-weight:700;font-family:var(--f-ui)}
+.aslot .st{color:var(--muted)}
+.aslot .st.mine{color:var(--ok);font-weight:700}
+.rev{grid-column:1/-1;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.rev input{width:20px;height:20px}
+.pcard{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.pcard h2{margin:0;font-size:18px}
+.meter{height:12px;border-radius:8px;background:#F2E8D6;overflow:hidden}.meter b{display:block;height:100%;background:var(--teal);border-radius:8px}
+.meter.k b{background:var(--ok)}
+.prow{display:grid;grid-template-columns:110px 1fr 90px;gap:10px;align-items:center;font-size:15px;font-variant-numeric:tabular-nums}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.kpi{background:#FBF5E9;border-radius:14px;padding:10px 14px}.kpi b{display:block;font-size:26px}.kpi span{font-size:13px;color:var(--muted)}
+.list{margin:0;padding:0 18px 0 0;font-size:15px;line-height:1.9}
+.btn{background:#F2E8D6;border-radius:12px;padding:10px 16px;font-size:15px;font-weight:700;font-family:var(--f-ui)}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.danger{background:#F7DCD6;color:#8E2A1C}
+.radio-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.radio-cards button{border:2px solid var(--line);border-radius:14px;padding:12px;text-align:right;background:#fff;font-family:var(--f-ui);font-size:15px;line-height:1.5}
+.radio-cards button b{display:block;font-size:17px}
+.radio-cards button[aria-pressed="true"]{border-color:var(--navy);background:#EEF2FB}
+textarea{width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:ui-monospace,Menlo,monospace;font-size:12px;direction:ltr;background:var(--paper);color:var(--ink)}
+.confirm{display:inline-flex;gap:8px;align-items:center;font-size:14px}
+.hint{font-size:13px;color:var(--muted)}
+
+@media (max-width:640px){
+  .sections,.games{grid-template-columns:1fr 1fr;gap:12px}
+  .vrow{grid-template-columns:1fr}
+  .screen{padding:12px 16px 16px}
+  .round{width:54px;height:54px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app" dir="rtl" lang="ar">
+
+<!-- HOME -->
+<section class="screen" id="s-home">
+  <div class="bar">
+    <div class="stars" aria-label="النجوم">⭐ <span id="star-count">٠</span></div>
+    <span style="flex:1"></span>
+    <button class="parent-btn" id="open-gate"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>للوالدين</button>
+  </div>
+  <div class="hello">
+    <svg class="mascot" data-mascot viewBox="0 0 140 140" aria-hidden="true"></svg>
+    <div class="bubble">أهلًا! هيّا نتعلّم</div>
+  </div>
+  <div class="sections" id="section-cards"></div>
+  <div class="games">
+    <button class="game-card" style="--edge:var(--brick)" data-game="find"><span class="gi">🔎</span><span class="gt">أين الصورة؟</span></button>
+    <button class="game-card" style="--edge:var(--leaf)" data-game="match"><span class="gi">🧩</span><span class="gt">طابِق</span></button>
+  </div>
+</section>
+
+<!-- SECTION -->
+<section class="screen" id="s-section" hidden>
+  <div class="bar">
+    <button class="round" data-home aria-label="رجوع"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <h1 id="sec-title"></h1>
+  </div>
+  <div class="grid" id="sec-grid"></div>
+</section>
+
+<!-- FIND GAME -->
+<section class="screen" id="s-find" hidden>
+  <div class="bar">
+    <button class="round" data-home aria-label="رجوع"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="dotsbar" id="find-dots" style="flex:1"></div>
+    <button class="round" id="find-repeat" aria-label="اسمع مرة أخرى"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg></button>
+  </div>
+  <div class="prompt" id="find-prompt"></div>
+  <div class="choices" id="find-choices"></div>
+</section>
+
+<!-- MATCH GAME -->
+<section class="screen" id="s-match" hidden>
+  <div class="bar">
+    <button class="round" data-home aria-label="رجوع"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="seg" style="flex:1" id="match-kind">
+      <button data-kind="pic" aria-pressed="true">🖼️ صورة + صورة</button>
+      <button data-kind="word" aria-pressed="false">🔤 صورة + كلمة</button>
+    </div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px">
+    <div class="mrow" id="match-top"></div>
+    <div class="mid">⇅</div>
+    <div class="mrow" id="match-bottom"></div>
+  </div>
+</section>
+
+<!-- PARENT -->
+<section class="screen parent" id="s-parent" hidden>
+  <div class="bar">
+    <button class="round" data-home aria-label="رجوع إلى التطبيق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <h1>منطقة الوالدين</h1>
+  </div>
+  <div class="tabs" role="tablist">
+    <button role="tab" data-tab="words" aria-selected="true">الكلمات</button>
+    <button role="tab" data-tab="progress" aria-selected="false">التقدّم</button>
+    <button role="tab" data-tab="settings" aria-selected="false">الإعدادات</button>
+    <button role="tab" data-tab="help" aria-selected="false">مساعدة</button>
+  </div>
+
+  <div class="ppanel" id="p-words">
+    <div class="note">يمكنك تعديل أي كلمة أو جملة. الكلمات الأصلية لها صوت آلي جاهز؛ أضف تسجيلك لأي كلمة ليُستخدم بدلًا منه.</div>
+    <div class="filters" id="word-filters"></div>
+    <div id="word-rows" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+
+  <div class="ppanel" id="p-progress" hidden></div>
+
+  <div class="ppanel" id="p-settings" hidden>
+    <div class="pcard">
+      <h2>صوت الجهاز</h2>
+      <div id="voice-info" class="hint"></div>
+      <label for="rate" class="hint">سرعة الكلام</label>
+      <input type="range" id="rate" min="0.5" max="1.1" step="0.05">
+      <div><button class="btn" id="test-voice">جرّب الصوت</button></div>
+    </div>
+    <div class="pcard">
+      <h2>نقل الكلمات بين الأجهزة</h2>
+      <p class="hint" style="margin:0">التعديلات والتسجيلات محفوظة على هذا الجهاز فقط. لنقل <b>الكلمات المكتوبة</b> إلى جهاز آخر: انسخها هنا وأرسلها برسالة، ثم الصقها في الجهاز الآخر. (التسجيلات الصوتية لا تنتقل؛ سجّلها على الآيباد نفسه.)</p>
+      <div class="row-btns" style="justify-content:flex-start"><button class="btn primary" id="copy-edits">نسخ تعديلاتي</button><span id="copy-msg" class="hint"></span></div>
+      <textarea id="paste-box" placeholder="الصق هنا التعديلات المنسوخة من جهاز آخر"></textarea>
+      <div class="row-btns" style="justify-content:flex-start"><button class="btn" id="apply-edits">تطبيق التعديلات الملصقة</button><span id="paste-msg" class="hint"></span></div>
+    </div>
+    <div class="pcard">
+      <h2>إعادة الضبط</h2>
+      <div class="row-btns" style="justify-content:flex-start">
+        <span data-confirm="progress"><button class="btn danger">مسح التقدّم والنجوم</button></span>
+        <span data-confirm="words"><button class="btn danger">استرجاع الكلمات الأصلية</button></span>
+        <span data-confirm="audio"><button class="btn danger">حذف كل التسجيلات</button></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ppanel" id="p-help" hidden>
+    <div class="pcard"><h2>إضافته إلى الشاشة الرئيسية في الآيباد</h2>
+      <ol class="list"><li>افتح الرابط في Safari.</li><li>اضغط زر المشاركة ⬆︎ ثم «إضافة إلى الشاشة الرئيسية».</li><li>افتحه من الأيقونة. بعد أول فتح يعمل التطبيق حتى مع ضعف الإنترنت.</li></ol></div>
+    <div class="pcard"><h2>قفل الآيباد على التطبيق (الوصول الموجَّه)</h2>
+      <ol class="list"><li>الإعدادات ← تسهيلات الاستخدام ← الوصول الموجَّه: شغّله وضع رمزًا.</li><li>افتح التطبيق واضغط الزر الجانبي ثلاث مرات ثم «بدء».</li><li>للخروج: اضغط الزر الجانبي ثلاث مرات وأدخل الرمز.</li></ol></div>
+    <div class="pcard"><h2>تسجيل صوتك لكلمة</h2>
+      <ol class="list"><li>افتح تطبيق «المذكرات الصوتية» وسجّل الكلمة وحدها.</li><li>اضغط ••• على التسجيل ← «حفظ في الملفات».</li><li>هنا في «الكلمات» اضغط «إضافة تسجيل» بجانب الكلمة واختر الملف.</li></ol>
+      <p class="hint" style="margin:0">التسجيل المباشر بالميكروفون داخل هذه الصفحة غير مسموح في هذه النسخة، لذلك يتم الأمر عبر ملف.</p></div>
+  </div>
+</section>
+</div>
+
+<!-- detail -->
+<div class="modal" id="m-detail" hidden>
+  <div class="sheet">
+    <button class="round close" data-close aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="detail-row">
+      <button class="round" id="d-prev" aria-label="السابق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="big-btn" id="d-pic" aria-label="اسمع"></button>
+      <button class="round" id="d-next" aria-label="التالي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    </div>
+    <div class="words" id="d-words"></div>
+    <button class="phrase" id="d-phrase"></button>
+  </div>
+</div>
+
+<!-- game picker -->
+<div class="modal" id="m-pick" hidden>
+  <div class="sheet">
+    <button class="round close" data-close aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <h2 style="margin:8px 0 0;font-size:36px" id="pick-title"></h2>
+    <div class="pick-grid" id="pick-grid"></div>
+  </div>
+</div>
+
+<!-- celebrate -->
+<div class="modal" id="m-cele" hidden>
+  <div class="sheet cele">
+    <svg class="mascot" data-mascot viewBox="0 0 140 140" aria-hidden="true"></svg>
+    <h2>رائع!</h2>
+    <div class="earned" id="cele-earned"></div>
+    <div class="row-btns">
+      <button class="pill" id="cele-again">🔁 مرة أخرى</button>
+      <button class="pill alt" id="cele-home">🏠 الرئيسية</button>
+    </div>
+  </div>
+</div>
+
+<!-- parent gate -->
+<div class="modal" id="m-gate" hidden>
+  <div class="sheet gate">
+    <button class="round close" data-close aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <h2>للوالدين فقط: ما ناتج</h2>
+    <div class="q" id="gate-q"></div>
+    <div class="opts" id="gate-opts"></div>
+    <div class="hint" id="gate-msg"></div>
+  </div>
+</div>
+
+<script src="clips.js"></script>
+<script>
+(() => {
+"use strict";
+
+/* ---------- content ---------- */
+const SECTIONS = [
+  {id:'animals', title:'الحيوانات', art:['🦁','🐫','🐱'], tint:'#FFE3C7', edge:'#EE8A3C', ink:'#8A3F0C'},
+  {id:'family',  title:'العائلة',   art:['👩','👨','👧'], tint:'#D7EFF3', edge:'#3E9FB2', ink:'#145565'},
+  {id:'body',    title:'جسمي',      art:['👀','👃','✋'], tint:'#EADFF6', edge:'#6B3FA0', ink:'#4A2477'},
+  {id:'colors',  title:'الألوان',   art:null,             tint:'#FFF0B8', edge:'#E5A823', ink:'#7A5200'},
+];
+// fw/fp = الفصحى word / short sentence
+const ITEMS = [
+  {id:'cat',cat:'animals',pic:'🐱',fw:'قِطّة',fp:'القطة تقول: مياو'},
+  {id:'dog',cat:'animals',pic:'🐶',fw:'كَلْب',fp:'الكلب يقول: هو هو'},
+  {id:'lion',cat:'animals',pic:'🦁',fw:'أَسَد',fp:'الأسد ملك الغابة'},
+  {id:'elephant',cat:'animals',pic:'🐘',fw:'فِيل',fp:'الفيل له خرطوم طويل'},
+  {id:'camel',cat:'animals',pic:'🐫',fw:'جَمَل',fp:'الجمل يعيش في الصحراء'},
+  {id:'horse',cat:'animals',pic:'🐴',fw:'حِصان',fp:'الحصان يركض بسرعة'},
+  {id:'cow',cat:'animals',pic:'🐮',fw:'بَقَرة',fp:'البقرة تعطينا الحليب'},
+  {id:'sheep',cat:'animals',pic:'🐑',fw:'خَروف',fp:'الخروف له صوف ناعم'},
+  {id:'chicken',cat:'animals',pic:'🐔',fw:'دَجاجة',fp:'الدجاجة تضع البيض'},
+  {id:'duck',cat:'animals',pic:'🦆',fw:'بَطّة',fp:'البطة تسبح في الماء'},
+  {id:'fish',cat:'animals',pic:'🐟',fw:'سَمَكة',fp:'السمكة تعيش في البحر'},
+  {id:'rabbit',cat:'animals',pic:'🐰',fw:'أَرْنَب',fp:'الأرنب يحب الجزر'},
+  {id:'monkey',cat:'animals',pic:'🐵',fw:'قِرْد',fp:'القرد يحب الموز'},
+  {id:'giraffe',cat:'animals',pic:'🦒',fw:'زَرافة',fp:'الزرافة لها رقبة طويلة'},
+  {id:'turtle',cat:'animals',pic:'🐢',fw:'سُلَحْفاة',fp:'السلحفاة تمشي ببطء'},
+
+  {id:'mama',cat:'family',pic:'👩',fw:'أُمّ',fp:'أحبّ أمي'},
+  {id:'baba',cat:'family',pic:'👨',fw:'أَب',fp:'أبي يلعب معي'},
+  {id:'brother',cat:'family',pic:'👦',fw:'أَخ',fp:'أخي يضحك'},
+  {id:'sister',cat:'family',pic:'👧',fw:'أُخْت',fp:'أختي تلعب معي'},
+  {id:'grandma',cat:'family',pic:'👵',fw:'جَدّة',fp:'جدتي تحكي قصة'},
+  {id:'grandpa',cat:'family',pic:'👴',fw:'جَدّ',fp:'جدي يمشي معي'},
+
+  {id:'eyes',cat:'body',pic:'👀',fw:'عَيْنان',fp:'أين عيناك؟'},
+  {id:'nose',cat:'body',pic:'👃',fw:'أَنْف',fp:'أين أنفك؟'},
+  {id:'mouth',cat:'body',pic:'👄',fw:'فَم',fp:'أين فمك؟'},
+  {id:'ears',cat:'body',pic:'👂',fw:'أُذُنان',fp:'أين أذناك؟'},
+  {id:'hands',cat:'body',pic:'👐',fw:'يَدان',fp:'أين يداك؟'},
+  {id:'fingers',cat:'body',pic:'🖐️',fw:'أَصابِع',fp:'أين أصابعك؟'},
+  {id:'feet',cat:'body',pic:'🦶',fw:'قَدَمان',fp:'أين قدماك؟'},
+  {id:'head',cat:'body',pic:'🧒',fw:'رَأْس',fp:'أين رأسك؟'},
+  {id:'hair',cat:'body',pic:'💇‍♀️',fw:'شَعْر',fp:'أين شعرك؟'},
+
+  {id:'red',cat:'colors',color:'#E2433A',pic:'🍎',fw:'أَحْمَر',fp:'التفاحة حمراء'},
+  {id:'blue',cat:'colors',color:'#2F6FD6',pic:'🐳',fw:'أَزْرَق',fp:'الحوت أزرق'},
+  {id:'yellow',cat:'colors',color:'#F7CB2D',pic:'🍌',fw:'أَصْفَر',fp:'الموزة صفراء'},
+  {id:'green',cat:'colors',color:'#3FA34D',pic:'🐸',fw:'أَخْضَر',fp:'الضفدع أخضر'},
+  {id:'orange',cat:'colors',color:'#F28A1E',pic:'🍊',fw:'بُرْتُقالي',fp:'البرتقالة لونها برتقالي'},
+  {id:'pink',cat:'colors',color:'#F39AC0',pic:'🌸',fw:'وَرْدي',fp:'الوردة لونها وردي'},
+  {id:'purple',cat:'colors',color:'#8A4FC2',pic:'🍇',fw:'بَنَفْسَجي',fp:'العنب لونه بنفسجي'},
+  {id:'black',cat:'colors',color:'#26232B',pic:'🐈‍⬛',fw:'أَسْوَد',fp:'القط أسود'},
+  {id:'white',cat:'colors',color:'#FFFFFF',pic:'☁️',fw:'أَبْيَض',fp:'الغيمة بيضاء'},
+];
+const BYID = Object.fromEntries(ITEMS.map(i => [i.id, i]));
+const HALOS = ['#FFF1D6','#E3F3F6','#F1E8FA','#FDE7EE','#E8F4E2','#FFF6C9'];
+
+/* letter families, following the colour strip on the Wendy's Friends cover: [letters, background, text] */
+const FAM = [['اأإآءٱ','#E5A823','#3A2A00'],['بتث','#1F3A8A','#FFFFFF'],['جحخ','#E8792B','#FFFFFF'],['دذ','#1E6B3A','#FFFFFF'],
+  ['رز','#8DB43A','#1D2A05'],['سش','#5B2A86','#FFFFFF'],['صض','#6CC4DC','#0B3440'],['طظ','#B83A2E','#FFFFFF'],['عغ','#E7A1B8','#4A1426'],
+  ['فق','#7A4A1F','#FFFFFF'],['ك','#A9AEB4','#1F2328'],['ل','#1D1D1F','#FFFFFF'],['م','#9FB7E8','#14244A'],['ن','#C2185B','#FFFFFF'],
+  ['هة','#E6C9A8','#4A3016'],['و','#4A2C17','#FFFFFF'],['يىئ','#B8962E','#FFFFFF']];
+function famOf(word){
+  const ch = [...(word||'').replace(/[ً-ٰٟـ\s؟?!.،]/g,'')][0] || '';
+  const f = FAM.find(f => f[0].includes(ch));
+  return f ? {bg:f[1], fg:f[2]} : {bg:'#E5A823', fg:'#3A2A00'};
+}
+
+/* ---------- state ---------- */
+const KEY = 'sanam-arabic-v1';
+const DEFAULT = {settings:{rate:0.8}, edits:{}, prog:{items:{}, games:{find:{plays:0,right:0,tries:0}, match:{plays:0,pairs:0}}, stars:0, recent:[]}};
+let S = load();
+function load(){
+  try { const raw = localStorage.getItem(KEY); if (raw){ const d = JSON.parse(raw);
+    return {settings:{...DEFAULT.settings, ...d.settings}, edits:d.edits||{}, prog:{...structuredClone(DEFAULT.prog), ...d.prog, games:{...structuredClone(DEFAULT.prog.games), ...(d.prog||{}).games}}}; } } catch(e){}
+  return structuredClone(DEFAULT);
+}
+let saveT; function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }, 150); }
+
+const F = (item, f) => { const e = S.edits[item.id]; const v = e && e[f] != null ? e[f] : item[f]; return (v || '').trim(); };
+function forms(item, kind='w'){ return [['f', F(item, 'f' + kind)]]; } // list of [form, text] to show and say
+const primary = item => forms(item)[0];
+const itemStat = id => (S.prog.items[id] ||= {taps:0, right:0, tries:0, last:0});
+const known = id => { const s = S.prog.items[id]; return !!s && s.right >= 2 && s.right / Math.max(1, s.tries) >= .6; };
+function logRecent(text){ S.prog.recent.unshift({t:Date.now(), text}); S.prog.recent.length = Math.min(S.prog.recent.length, 25); save(); }
+function addStars(n){ S.prog.stars += n; save(); renderStars(); }
+
+const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.random()*(i+1)|0; [a[i],a[j]] = [a[j],a[i]]; } return a; };
+const $ = s => document.querySelector(s);
+const inCat = c => c === 'all' ? ITEMS : ITEMS.filter(i => i.cat === c);
+
+/* ---------- recordings (IndexedDB, this device only) ---------- */
+const Rec = {
+  db:null, keys:new Set(), blobs:new Map(), ok:false,
+  async init(){
+    try {
+      this.db = await new Promise((res, rej) => { const r = indexedDB.open('sanam-audio', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('a'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+      const ks = await this.tx('readonly', s => s.getAllKeys()); for (const k of ks){ this.keys.add(k); const b = await this.tx('readonly', s => s.get(k)); if (b) this.blobs.set(k, b); } this.ok = true;
+    } catch(e){ this.ok = false; }
+  },
+  tx(mode, fn){ return new Promise((res, rej) => { const t = this.db.transaction('a', mode); const r = fn(t.objectStore('a')); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); },
+  has(k){ return this.keys.has(k); },
+  async get(k){ return this.ok ? this.tx('readonly', s => s.get(k)) : null; },
+  async put(k, blob){ await this.tx('readwrite', s => s.put(blob, k)); this.keys.add(k); this.blobs.set(k, blob); },
+  async del(k){ await this.tx('readwrite', s => s.delete(k)); this.keys.delete(k); this.blobs.delete(k); },
+  async clear(){ await this.tx('readwrite', s => s.clear()); this.keys.clear(); this.blobs.clear(); }
+};
+const recKey = (id, form, kind) => `${id}|${form}|${kind}`;
+
+/* ---------- sound ---------- */
+const hasTTS = 'speechSynthesis' in window;
+let voice = null, playToken = 0;
+function pickVoice(){
+  if (!hasTTS) return; const vs = speechSynthesis.getVoices();
+  voice = vs.find(v => /^ar[-_]SA/i.test(v.lang)) || vs.find(v => /^ar/i.test(v.lang)) || null;
+  const el = $('#voice-info'); if (el) el.textContent = !hasTTS ? 'هذا المتصفح لا يدعم الكلام الآلي.' : 'الكلمات الأصلية لها أصوات جاهزة داخل التطبيق (صوت آلي فصيح). ' + (voice ? `الكلمات التي تكتبها أنت تُنطق بصوت الجهاز: ${voice.name}.` : 'لا يوجد صوت عربي في هذا الجهاز، لذلك الكلمات التي تكتبها أنت لن تُنطق حتى تضيف تسجيلك لها، أو تضيف صوتًا عربيًا من الإعدادات ← تسهيلات الاستخدام ← المحتوى المنطوق ← الأصوات.');
+}
+if (hasTTS){ pickVoice(); speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', pickVoice); }
+// One shared player: once a tap has started it, iPad lets it keep playing later sounds (game prompts).
+const player = new Audio(); player.preload = 'auto'; let playerURL = null;
+function stopSound(){ playToken++; if (hasTTS) speechSynthesis.cancel(); player.onended = player.onerror = null; player.pause(); }
+function playSrc(src, tok, isBlob){
+  return new Promise(res => {
+    if (tok !== playToken) return res();
+    if (playerURL){ URL.revokeObjectURL(playerURL); playerURL = null; } if (isBlob) playerURL = src;
+    const done = () => { player.onended = player.onerror = null; clearTimeout(t); res(); };
+    const t = setTimeout(done, 8000);
+    player.onended = player.onerror = done; player.src = src;
+    player.playbackRate = Math.min(1.3, Math.max(.6, S.settings.rate / .8)); player.play().catch(done);
+  });
+}
+const clipFor = text => (window.SANAM_CLIPS || {})[text];
+// The device voice reads punctuation aloud ("exclamation point", "question mark"), so speak only the words.
+const forSpeech = s => (s || '').replace(/[!?؟.,،:;«»"'()\-–—…]/g, ' ').replace(/\p{Extended_Pictographic}/gu, ' ').replace(/\s+/g, ' ').trim();
+// speak() must run in the same moment as the tap (no waiting first), or iPad and Safari block it.
+function tts(raw, tok){
+  return new Promise(res => {
+    const text = forSpeech(raw);
+    if (!text || tok !== playToken) return res();
+    const clip = clipFor(text); if (clip) return playSrc(clip, tok).then(res);
+    if (!hasTTS) return res();
+    if (!voice) pickVoice();
+    // A non-Arabic voice skips Arabic words entirely, so do not use one.
+    if (!voice && speechSynthesis.getVoices().length) return res();
+    const u = new SpeechSynthesisUtterance(text); u.lang = voice ? voice.lang : 'ar-SA'; if (voice) u.voice = voice;
+    u.rate = S.settings.rate; u.pitch = 1.08; const done = () => { clearTimeout(t); res(); }; u.onend = u.onerror = done;
+    const t = setTimeout(done, 2000 + text.length * 300);
+    speechSynthesis.resume(); speechSynthesis.speak(u);
+  });
+}
+function playBlob(blob, tok){ return playSrc(URL.createObjectURL(blob), tok, true); }
+// Recordings are kept in memory so they start instantly from the tap (iPad blocks sound that starts later).
+function sayForm(item, form, kind, tok){
+  const b = Rec.blobs.get(recKey(item.id, form, kind));
+  return b ? playBlob(b, tok) : tts(F(item, form + kind), tok);
+}
+async function sayItem(item, kind='w', only){
+  stopSound(); const tok = playToken;
+  const list = only ? [only] : forms(item, kind).map(f => f[0]);
+  for (const f of list){ if (tok !== playToken) return; await sayForm(item, f, kind, tok); await sleep(180); }
+}
+async function sayText(text){ stopSound(); await tts(text, playToken); }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* ---------- rendering helpers ---------- */
+function picHTML(item, idx=0){
+  if (item.color) return `<span class="swatch" style="--c:${item.color}"><span class="mini">${item.pic}</span></span>`;
+  return `<span class="pic" style="--halo:${HALOS[idx % HALOS.length]}">${item.pic}</span>`;
+}
+function chipHTML(text, size){ const f = famOf(text); return `<span class="chip" style="--fc:${f.bg};--ft:${f.fg};--fs:${size}">${esc(text)}</span>`; }
+
+function mascotSVG(){
+  return `<ellipse cx="70" cy="128" rx="34" ry="6" fill="#000" opacity=".08"/>
+  <path d="M44 120c0-22 8-34 26-34s26 12 26 34z" fill="#E1A85F"/>
+  <ellipse cx="38" cy="44" rx="11" ry="7" fill="#C98B45" transform="rotate(-30 38 44)"/>
+  <ellipse cx="102" cy="44" rx="11" ry="7" fill="#C98B45" transform="rotate(30 102 44)"/>
+  <ellipse cx="70" cy="62" rx="38" ry="40" fill="#EBB872"/>
+  <path d="M56 26c4-10 10-12 14-6 4-8 12-6 14 4" fill="#B9773A"/>
+  <ellipse cx="70" cy="84" rx="26" ry="19" fill="#F7DDB0"/>
+  <circle cx="55" cy="56" r="7.5" fill="#2A2440"/><circle cx="85" cy="56" r="7.5" fill="#2A2440"/>
+  <circle cx="57.5" cy="53.5" r="2.6" fill="#fff"/><circle cx="87.5" cy="53.5" r="2.6" fill="#fff"/>
+  <path d="M47 47l-4-4M51 45l-2-5M93 47l4-4M89 45l2-5" stroke="#2A2440" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="44" cy="70" rx="7" ry="4.5" fill="#F29A8E" opacity=".7"/><ellipse cx="96" cy="70" rx="7" ry="4.5" fill="#F29A8E" opacity=".7"/>
+  <ellipse cx="62" cy="80" rx="2.4" ry="3.2" fill="#8C5A2B"/><ellipse cx="78" cy="80" rx="2.4" ry="3.2" fill="#8C5A2B"/>
+  <path d="M60 89q10 8 20 0" stroke="#8C5A2B" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+}
+document.querySelectorAll('[data-mascot]').forEach(s => s.innerHTML = mascotSVG());
+
+function renderStars(){ $('#star-count').textContent = AR(S.prog.stars); }
+function sparkle(x, y, n=5){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  for (let i = 0; i < n; i++){ const s = document.createElement('span'); s.className = 'float'; s.textContent = '⭐';
+    s.style.left = (x - 20 + (Math.random()-.5)*120) + 'px'; s.style.top = (y - 20 + (Math.random()-.5)*40) + 'px'; s.style.animationDelay = (i*70)+'ms';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1900); }
+}
+
+/* ---------- navigation ---------- */
+let current = 'home';
+function show(name){
+  stopSound(); current = name;
+  document.querySelectorAll('.screen').forEach(s => s.hidden = s.id !== 's-' + name);
+  document.querySelectorAll('.modal').forEach(m => m.hidden = true);
+  if (name === 'home') renderStars();
+}
+document.querySelectorAll('[data-home]').forEach(b => b.addEventListener('click', () => show('home')));
+document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => {
+  if (e.target === m || e.target.closest('[data-close]')) { if (m.id === 'm-cele') return; m.hidden = true; stopSound(); }
+}));
+
+/* ---------- home ---------- */
+function renderHome(){
+  $('#section-cards').innerHTML = SECTIONS.map(s => `
+    <button class="card" data-sec="${s.id}" style="--tint:${s.tint};--edge:${s.edge};--edge-ink:${s.ink}">
+      <span class="art">${s.art ? `<small>${s.art[1]}</small>${s.art[0]}<small>${s.art[2]}</small>` :
+        `<span class="dots">${['#E2433A','#F7CB2D','#2F6FD6','#3FA34D'].map(c => `<i style="--c:${c}"></i>`).join('')}</span>`}</span>
+      <span class="ttl">${s.title}</span></button>`).join('');
+}
+$('#section-cards').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (b) openSection(b.dataset.sec); });
+
+/* ---------- section ---------- */
+let secItems = [];
+function openSection(id){
+  const s = SECTIONS.find(x => x.id === id); secItems = inCat(id);
+  $('#sec-title').textContent = s.title; $('#sec-title').style.color = s.ink;
+  $('#sec-grid').innerHTML = secItems.map((it, i) => `<button class="tile" data-i="${i}">${picHTML(it, i)}${chipHTML(primary(it)[1], '26px')}</button>`).join('');
+  show('section'); if (clipFor(forSpeech(s.title))) sayText(s.title); // only a real recording, never the robot voice
+}
+$('#sec-grid').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) openDetail(+b.dataset.i); });
+
+/* ---------- detail ---------- */
+let dIdx = 0;
+function openDetail(i){
+  dIdx = (i + secItems.length) % secItems.length; const it = secItems[dIdx];
+  $('#d-pic').innerHTML = picHTML(it, dIdx).replace(/class="(pic|swatch)"/, 'class="$1 big"');
+  const fw = forms(it);
+  $('#d-words').innerHTML = fw.map(([f, t], n) => `<div class="wline">${chipHTML(t, n ? 'clamp(28px,4vw,38px)' : 'clamp(40px,6.4vw,62px)')}</div>`).join('');
+  const fp = forms(it, 'p');
+  $('#d-phrase').innerHTML = `<svg class="speak-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6"/></svg><span>${fp.map(([f,t], n) => n ? `<small>${esc(t)}</small>` : esc(t)).join('')}</span>`;
+  $('#d-phrase').hidden = !fp[0][1];
+  $('#m-detail').hidden = false;
+  const st = itemStat(it.id); st.taps++; st.last = Date.now(); save();
+  boing(); sayItem(it);
+}
+function boing(){ const b = $('#d-pic'); b.classList.remove('boing'); void b.offsetWidth; b.classList.add('boing'); }
+$('#d-pic').addEventListener('click', () => { boing(); sayItem(secItems[dIdx]); });
+$('#d-phrase').addEventListener('click', () => sayItem(secItems[dIdx], 'p'));
+$('#d-prev').addEventListener('click', () => openDetail(dIdx - 1));
+$('#d-next').addEventListener('click', () => openDetail(dIdx + 1));
+
+/* ---------- game picker ---------- */
+let pendingGame = null, lastCat = 'all';
+document.querySelectorAll('[data-game]').forEach(b => b.addEventListener('click', () => {
+  pendingGame = b.dataset.game;
+  $('#pick-title').textContent = pendingGame === 'find' ? 'أين الصورة؟' : 'طابِق';
+  $('#pick-grid').innerHTML = [{id:'all', title:'الكل', art:['🌈'], tint:'#FFF6E3', edge:'#E5A823'}, ...SECTIONS].map(s =>
+    `<button class="pick" data-cat="${s.id}" style="--tint:${s.tint};--edge:${s.edge}"><span>${s.art ? s.art[0] : '🎨'}</span>${s.title}</button>`).join('');
+  $('#m-pick').hidden = false;
+}));
+$('#pick-grid').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; lastCat = b.dataset.cat; startGame(pendingGame, lastCat); });
+function startGame(g, cat){ if (g === 'find') Find.start(cat); else Match.start(cat); }
+
+/* ---------- celebrate ---------- */
+let celeAgain = null;
+function celebrate(stars, again){
+  addStars(stars); celeAgain = again;
+  $('#cele-earned').textContent = `+${AR(stars)} ⭐`; $('#m-cele').hidden = false;
+  sparkle(innerWidth/2, innerHeight/2, 8); sayText(['رائع!','ممتاز!','برافو!'][Math.random()*3|0]);
+}
+$('#cele-again').addEventListener('click', () => { $('#m-cele').hidden = true; celeAgain && celeAgain(); });
+$('#cele-home').addEventListener('click', () => show('home'));
+
+/* ---------- Game 1: find the picture ---------- */
+const PRAISE = ['رائع!','ممتاز!','برافو!','جميل!'];
+const Find = {
+  pool:[], round:0, total:5, streak:0, target:null, missed:false, locked:false, cat:'all',
+  start(cat){ this.cat = cat; this.pool = inCat(cat); this.round = 0; this.streak = 0; S.prog.games.find.plays++; save();
+    logRecent(`لعبة «أين الصورة؟» – ${catName(cat)}`); show('find'); this.next(); },
+  pickTarget(){
+    const w = this.pool.map(it => { const s = S.prog.items[it.id] || {}; return (known(it.id) ? 1 : 3) + Math.min(3, (s.tries||0) - (s.right||0)); });
+    let r = Math.random() * w.reduce((a, b) => a + b, 0);
+    for (let i = 0; i < w.length; i++){ r -= w[i]; if (r <= 0 && this.pool[i] !== this.target) return this.pool[i]; }
+    return this.pool.find(p => p !== this.target) || this.pool[0];
+  },
+  next(){
+    if (this.round >= this.total) return celebrate(3, () => this.start(this.cat));
+    const n = Math.min(this.pool.length, this.streak >= 6 ? 4 : this.streak >= 3 ? 3 : 2);
+    this.target = this.pickTarget(); this.missed = false; this.locked = false;
+    const others = shuffle(this.pool.filter(i => i !== this.target)).slice(0, n - 1);
+    const choices = shuffle([this.target, ...others]);
+    $('#find-dots').innerHTML = Array.from({length:this.total}, (_, i) => `<i class="${i < this.round ? 'on' : ''}"></i>`).join('');
+    $('#find-prompt').innerHTML = `<span class="hand">👆</span>${chipHTML(primary(this.target)[1], 'clamp(40px,6vw,58px)')}`;
+    const box = $('#find-choices'); box.style.setProperty('--n', n);
+    box.innerHTML = choices.map((c, i) => `<button class="choice" data-id="${c.id}" aria-label="${esc(primary(c)[1])}">${picHTML(c, i)}</button>`).join('');
+    setTimeout(() => this.say(), 300);
+  },
+  say(){ if (this.target) sayItem(this.target, 'w', primary(this.target)[0]); },
+  async tap(btn){
+    if (this.locked) return; const it = BYID[btn.dataset.id], st = itemStat(this.target.id);
+    if (it === this.target){
+      this.locked = true; if (!this.missed){ st.tries++; st.right++; this.streak++; S.prog.games.find.right++; } S.prog.games.find.tries++;
+      st.last = Date.now(); save(); btn.classList.add('right');
+      const r = btn.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top + r.height/3, 4); addStars(1);
+      stopSound(); const tok = playToken; await sayForm(this.target, primary(this.target)[0], 'w', tok); await sleep(150); await tts(PRAISE[Math.random()*PRAISE.length|0], tok);
+      await sleep(500); if (current === 'find'){ this.round++; this.next(); }
+    } else {
+      if (!this.missed){ this.missed = true; st.tries++; this.streak = 0; S.prog.games.find.tries++; save(); }
+      btn.classList.remove('nope'); void btn.offsetWidth; btn.classList.add('nope');
+      // name the picture they tapped, then gently ask again
+      await sayItem(it, 'w', primary(it)[0]); const tok = playToken; await sleep(350);
+      if (tok === playToken && current === 'find' && !this.locked) this.say();
+    }
+  }
+};
+$('#find-choices').addEventListener('click', e => { const b = e.target.closest('.choice'); if (b) Find.tap(b); });
+$('#find-repeat').addEventListener('click', () => Find.say());
+const catName = c => c === 'all' ? 'الكل' : SECTIONS.find(s => s.id === c).title;
+
+/* ---------- Game 2: matching ---------- */
+const Match = {
+  cat:'all', kind:'pic', pairs:[], sel:null, done:0,
+  start(cat){ this.cat = cat; this.sel = null; this.done = 0;
+    this.pairs = shuffle(inCat(cat)).slice(0, 3); S.prog.games.match.plays++; save();
+    logRecent(`لعبة «طابِق» – ${catName(cat)}`); show('match'); this.render(); },
+  render(){
+    document.querySelectorAll('#match-kind button').forEach(b => b.setAttribute('aria-pressed', b.dataset.kind === this.kind));
+    const card = (it, side, i) => `<button class="mcard" data-side="${side}" data-id="${it.id}" aria-label="${esc(primary(it)[1])}">${
+      side === 'b' && this.kind === 'word' ? chipHTML(primary(it)[1], 'clamp(26px,4vw,40px)') : picHTML(it, i)}</button>`;
+    $('#match-top').innerHTML = shuffle(this.pairs).map((it, i) => card(it, 't', i)).join('');
+    $('#match-bottom').innerHTML = shuffle(this.pairs).map((it, i) => card(it, 'b', i + 2)).join('');
+  },
+  tap(btn){
+    const side = btn.dataset.side, it = BYID[btn.dataset.id];
+    sayItem(it, 'w', primary(it)[0]);
+    if (!this.sel || this.sel.dataset.side === side){
+      if (this.sel) this.sel.classList.remove('sel'); this.sel = btn; btn.classList.add('sel'); return;
+    }
+    const a = this.sel; this.sel = null; a.classList.remove('sel');
+    const st = itemStat(it.id); st.tries++;
+    if (a.dataset.id === btn.dataset.id){
+      st.right++; st.last = Date.now(); a.classList.add('done'); btn.classList.add('done'); this.done++; S.prog.games.match.pairs++; save();
+      const r = btn.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top, 3);
+      if (this.done === this.pairs.length) setTimeout(() => current === 'match' && celebrate(3, () => this.start(this.cat)), 1100);
+    } else {
+      save(); [a, btn].forEach(b => { b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); });
+    }
+  }
+};
+$('#s-match').addEventListener('click', e => {
+  const k = e.target.closest('[data-kind]'); if (k){ Match.kind = k.dataset.kind; Match.start(Match.cat); return; }
+  const b = e.target.closest('.mcard'); if (b) Match.tap(b);
+});
+
+/* ---------- parent gate ---------- */
+let gateAns = 0;
+function openGate(){
+  const a = 2 + (Math.random()*6|0), b = 2 + (Math.random()*5|0); gateAns = a + b;
+  $('#gate-q').textContent = `${AR(a)} + ${AR(b)} = ؟`;
+  const opts = new Set([gateAns]); while (opts.size < 4){ opts.add(gateAns + (Math.random()*9|0) - 4); }
+  $('#gate-opts').innerHTML = shuffle([...opts].filter(n => n > 0)).map(n => `<button data-n="${n}">${AR(n)}</button>`).join('');
+  $('#gate-msg').textContent = ''; $('#m-gate').hidden = false;
+}
+$('#open-gate').addEventListener('click', openGate);
+$('#gate-opts').addEventListener('click', e => { const b = e.target.closest('[data-n]'); if (!b) return;
+  if (+b.dataset.n === gateAns){ openParent(); } else { $('#gate-msg').textContent = 'جرّب سؤالًا آخر'; setTimeout(openGate, 600); } });
+
+/* ---------- parent area ---------- */
+let wordFilter = 'animals';
+function openParent(){ show('parent'); setTab('words'); }
+function setTab(t){
+  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  ['words','progress','settings','help'].forEach(p => $('#p-' + p).hidden = p !== t);
+  if (t === 'words') renderWords(); if (t === 'progress') renderProgress(); if (t === 'settings') renderSettings();
+}
+document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab); });
+
+function slotHTML(id, form, kind){
+  const k = recKey(id, form, kind), mine = Rec.has(k);
+  return `<div class="aslot" data-key="${k}"><button data-act="play">▶︎ استماع</button>
+    ${Rec.ok ? `<button data-act="up">${mine ? 'استبدال التسجيل' : 'إضافة تسجيل'}</button>${mine ? '<button data-act="del">حذف</button>' : ''}` : ''}
+    <span class="st ${mine ? 'mine' : ''}">${mine ? 'تسجيلك ✓' : 'الصوت الآلي'}</span></div>`;
+}
+function renderWords(){
+  $('#word-filters').innerHTML = SECTIONS.map(s => `<button data-f="${s.id}" aria-pressed="${s.id === wordFilter}">${s.title}</button>`).join('');
+  $('#word-rows').innerHTML = inCat(wordFilter).map((it, i) => {
+    const v = f => esc(F(it, f));
+    return `<div class="vrow" data-id="${it.id}">
+      <span class="vpic">${picHTML(it, i)}</span>
+      <div class="vcol">
+        <label for="${it.id}-fw">الكلمة</label><input id="${it.id}-fw" data-f="fw" value="${v('fw')}">${slotHTML(it.id,'f','w')}
+        <label for="${it.id}-fp">الجملة</label><input id="${it.id}-fp" data-f="fp" value="${v('fp')}">${slotHTML(it.id,'f','p')}</div>
+    </div>`; }).join('');
+}
+$('#word-filters').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (b){ wordFilter = b.dataset.f; renderWords(); } });
+$('#word-rows').addEventListener('input', e => {
+  const inp = e.target.closest('[data-f]'); if (!inp) return; const id = inp.closest('.vrow').dataset.id;
+  const ed = (S.edits[id] ||= {}); ed[inp.dataset.f] = inp.type === 'checkbox' ? inp.checked : inp.value; save();
+  if (inp.type === 'checkbox') renderWords();
+});
+$('#word-rows').addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const key = b.closest('.aslot').dataset.key, [id, form, kind] = key.split('|'), it = BYID[id];
+  if (b.dataset.act === 'play'){
+    stopSound(); const tok = playToken;
+    if (!Rec.has(key) && !F(it, form + kind)) { b.closest('.aslot').querySelector('.st').textContent = 'لا يوجد نص بعد'; return; }
+    return sayForm(it, form, kind, tok);
+  }
+  if (b.dataset.act === 'del'){ await Rec.del(key); renderWords(); return; }
+  if (b.dataset.act === 'up'){
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'audio/*,.m4a,.mp3,.wav,.aac';
+    inp.onchange = async () => {
+      const f = inp.files[0], st = b.closest('.aslot').querySelector('.st'); if (!f) return;
+      if (f.size > 6e6){ st.textContent = 'الملف كبير جدًا (الحد ٦ ميغابايت)'; return; }
+      const ok = await new Promise(res => { const a = new Audio(); const u = URL.createObjectURL(f); a.preload = 'metadata';
+        a.onloadedmetadata = () => { URL.revokeObjectURL(u); res(true); }; a.onerror = () => { URL.revokeObjectURL(u); res(false); }; a.src = u; setTimeout(() => res(true), 3000); });
+      if (!ok){ st.textContent = 'تعذّر تشغيل هذا الملف. جرّب ملف m4a من المذكرات الصوتية.'; return; }
+      try { await Rec.put(key, f); renderWords(); } catch(err){ st.textContent = 'تعذّر الحفظ على هذا الجهاز'; }
+    };
+    inp.click();
+  }
+});
+
+function renderProgress(){
+  const P = S.prog, all = ITEMS.length;
+  const seen = ITEMS.filter(i => { const s = P.items[i.id]; return s && (s.taps || s.tries); }).length;
+  const kn = ITEMS.filter(i => known(i.id)).length;
+  const weak = ITEMS.filter(i => { const s = P.items[i.id]; return s && s.tries >= 2 && s.right / s.tries < .5; });
+  const rows = SECTIONS.map(s => { const its = inCat(s.id), n = its.length;
+    const sn = its.filter(i => { const x = P.items[i.id]; return x && (x.taps || x.tries); }).length, k = its.filter(i => known(i.id)).length;
+    return `<div class="prow"><b>${s.title}</b><div style="display:flex;flex-direction:column;gap:4px"><div class="meter"><b style="width:${sn/n*100}%"></b></div><div class="meter k"><b style="width:${k/n*100}%"></b></div></div><span>${AR(sn)}/${AR(n)} · ${AR(k)} ✓</span></div>`; }).join('');
+  const fmt = t => new Date(t).toLocaleString('ar', {weekday:'short', hour:'numeric', minute:'2-digit'});
+  $('#p-progress').innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><b>${AR(seen)}/${AR(all)}</b><span>كلمات شاهدتها</span></div>
+      <div class="kpi"><b>${AR(kn)}</b><span>كلمات تعرفها (صحيحة مرتين على الأقل في الألعاب)</span></div>
+      <div class="kpi"><b>${AR(P.stars)}</b><span>نجوم</span></div>
+      <div class="kpi"><b>${AR(P.games.find.plays)} · ${AR(P.games.match.plays)}</b><span>مرات لعب «أين الصورة؟» · «طابِق»</span></div>
+    </div>
+    <div class="pcard"><h2>حسب القسم</h2><p class="hint" style="margin:0">الشريط الأزرق: ما شاهدته. الأخضر: ما تعرفه.</p>${rows}</div>
+    <div class="pcard"><h2>تحتاج تدريبًا</h2>${weak.length ? `<div style="display:flex;gap:10px;flex-wrap:wrap">${weak.map(i => chipHTML(primary(i)[1], '20px')).join('')}</div>` : '<p class="hint" style="margin:0">لا شيء بعد. تظهر هنا الكلمات التي يخطئ فيها الطفل كثيرًا في الألعاب.</p>'}</div>
+    <div class="pcard"><h2>آخر النشاطات</h2>${P.recent.length ? `<ul class="list">${P.recent.slice(0, 10).map(r => `<li>${esc(r.text)} <span class="hint">${fmt(r.t)}</span></li>`).join('')}</ul>` : '<p class="hint" style="margin:0">لم يُلعب شيء بعد.</p>'}</div>
+    <p class="hint">التقدّم محفوظ على هذا الجهاز فقط.</p>`;
+}
+
+function renderSettings(){
+  $('#rate').value = S.settings.rate; pickVoice();
+  document.querySelectorAll('[data-confirm]').forEach(resetConfirm);
+}
+$('#rate').addEventListener('input', e => { S.settings.rate = +e.target.value; save(); });
+$('#test-voice').addEventListener('click', () => sayText('مرحبًا، هذا صوت الجهاز. قِطّة، أَسَد، جَمَل'));
+$('#copy-edits').addEventListener('click', async () => {
+  const txt = JSON.stringify({sanam:1, edits:S.edits});
+  try { await navigator.clipboard.writeText(txt); $('#copy-msg').textContent = 'تم النسخ. أرسله برسالة والصقه في الجهاز الآخر.'; }
+  catch(e){ const box = $('#paste-box'); box.value = txt; box.select(); $('#copy-msg').textContent = 'انسخ النص المحدد في المربع أدناه.'; }
+});
+$('#apply-edits').addEventListener('click', () => {
+  try { const d = JSON.parse($('#paste-box').value.trim()); if (!d || d.sanam !== 1 || typeof d.edits !== 'object') throw 0;
+    let n = 0; for (const [id, ed] of Object.entries(d.edits)) if (BYID[id] && ed && typeof ed === 'object'){
+      const clean = {}; ['fw','fp'].forEach(k => { if (typeof ed[k] === 'string') clean[k] = ed[k].slice(0, 120); });
+      S.edits[id] = {...(S.edits[id]||{}), ...clean}; n++; }
+    save(); $('#paste-msg').textContent = `تم تطبيق تعديلات ${AR(n)} كلمة.`; $('#paste-box').value = '';
+  } catch(e){ $('#paste-msg').textContent = 'هذا النص ليس نسخة صحيحة من «نسخ تعديلاتي».'; }
+});
+function resetConfirm(span){ const label = {progress:'مسح التقدّم والنجوم', words:'استرجاع الكلمات الأصلية', audio:'حذف كل التسجيلات'}[span.dataset.confirm];
+  span.innerHTML = `<button class="btn danger" data-ask>${label}</button>`; }
+$('#p-settings').addEventListener('click', async e => {
+  const span = e.target.closest('[data-confirm]'); if (!span) return; const what = span.dataset.confirm;
+  if (e.target.closest('[data-ask]')){ span.innerHTML = `<span class="confirm">متأكد؟ <button class="btn danger" data-yes>نعم</button><button class="btn" data-no>إلغاء</button></span>`; return; }
+  if (e.target.closest('[data-no]')) return resetConfirm(span);
+  if (e.target.closest('[data-yes]')){
+    if (what === 'progress'){ S.prog = structuredClone(DEFAULT.prog); renderStars(); }
+    if (what === 'words') S.edits = {};
+    if (what === 'audio' && Rec.ok) await Rec.clear();
+    save(); span.innerHTML = '<span class="hint">تم ✓</span>'; setTimeout(() => resetConfirm(span), 1500);
+  }
+});
+
+/* ---------- boot ---------- */
+renderHome(); renderStars(); show('home');
+Rec.init();
+})();
+</script>
+
+</body>
+</html>
